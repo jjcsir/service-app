@@ -1,0 +1,6 @@
+{
+  "pages": ["pages/index/index"],
+  "window": {
+    "navigationBarTitleText": "上门服务"
+  }
+}
