@@ -1,1 +1,37 @@
-page { background-color: #f5f5f5; }
+page {
+  background-color: #F5F5F5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.container {
+  padding: 20rpx;
+}
+
+.section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.more {
+  font-size: 24rpx;
+  color: #999;
+  font-weight: normal;
+}
+
+.price {
+  color: #FF6B35;
+  font-weight: bold;
+}
+
+.book-btn {
+  background-color: #FF6B35 !important;
+  color: white !important;
+  border-radius: 30rpx !important;
+  font-size: 24rpx !important;
+}

@@ -1,0 +1,51 @@
+<view class="container">
+  <view class="service-header">
+    <image src="{{service.icon}}" class="service-logo" />
+    <view class="service-detail">
+      <text class="s-name">{{service.name}}</text>
+      <text class="s-price">¥{{service.price}}</text>
+      <text class="s-cat">{{service.category}}</text>
+    </view>
+  </view>
+
+  <view class="section">
+    <text class="label">📅 选择日期</text>
+    <scroll-view scroll-x class="date-scroll">
+      <view class="date-item {{currentDateIndex==index?'active':''}}" wx:for="{{dates}}" wx:key="index" bindtap="selectDate" data-index="{{index}}">
+        <text class="date-day">{{item.day}}</text>
+        <text class="date-week">{{item.week}}</text>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class="section">
+    <text class="label">⏰ 选择时段</text>
+    <view class="time-slots">
+      <view class="time-item {{currentTimeSlot==index?'active':''}}" wx:for="{{timeSlots}}" wx:key="*this" bindtap="selectTime" data-index="{{index}}">
+        <text>{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <text class="label">📍 服务地址</text>
+    <textarea class="input-area" placeholder="请输入详细地址" bindinput="onAddressInput" maxlength="200" />
+  </view>
+
+  <view class="section">
+    <text class="label">📝 备注信息</text>
+    <textarea class="input-area" placeholder="如有特殊要求请备注（选填）" bindinput="onRemarkInput" maxlength="200" />
+  </view>
+
+  <view class="section">
+    <text class="label">💰 费用明细</text>
+    <view class="cost-row"><text>服务费</text><text class="cost-price">¥{{service.price}}</text></view>
+    <view class="cost-row"><text>上门费</text><text class="cost-free">免</text></view>
+    <view class="cost-row total"><text>合计</text><text class="total-price">¥{{service.price}}</text></view>
+  </view>
+
+  <view class="bottom-bar">
+    <view class="total-info"><text>合计：</text><text class="big-price">¥{{service.price}}</text></view>
+    <button class="submit-btn" bindtap="submitOrder">立即预约</button>
+  </view>
+</view>
