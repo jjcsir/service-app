@@ -1,0 +1,17 @@
+# Dependencies
+server/node_modules/
+
+# Data & uploads
+.serverdata/
+uploads/
+
+# OS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Built files
+dist/
+build/
