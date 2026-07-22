@@ -1,0 +1,15 @@
+<view class="mc-tabbar">
+  <scroll-view scroll-x class="mc-tabbar-scroll">
+    <view class="mc-tabbar-inner">
+      <view 
+        class="mc-tabitem {{activeTab === index ? 'active' : ''}}"
+        wx:for="{{tabs}}"
+        wx:key="index"
+        bindtap="onTab"
+        data-index="{{index}}">
+        <text class="mc-tab-label">{{item}}</text>
+        <view class="mc-tab-indicator" wx:if="{{activeTab === index}}"></view>
+      </view>
+    </view>
+  </scroll-view>
+</view>

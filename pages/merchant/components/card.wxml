@@ -1,0 +1,11 @@
+<view class="mc-card {{className}}" style="{{customStyle}}">
+  <view class="mc-card-header" wx:if="{{showTitle || showAction}}">
+    <text class="mc-card-title" wx:if="{{title}}">{{title}}</text>
+    <view class="mc-card-actions" wx:if="{{actionText}}">
+      <text class="mc-card-action-text" bindtap="onAction">{{actionText}}</text>
+    </view>
+  </view>
+  <view class="mc-card-body">
+    <slot />
+  </view>
+</view>

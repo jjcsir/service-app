@@ -1,0 +1,18 @@
+.mc-tabbar {
+  background: var(--card-bg);
+  padding: 0 24rpx;
+  border-bottom: 1rpx solid var(--border);
+}
+.mc-tabbar-scroll { white-space: nowrap; }
+.mc-tabbar-inner { display: flex; padding: 20rpx 0; }
+.mc-tabitem {
+  padding: 0 24rpx;
+  position: relative;
+  transition: all 0.2s ease;
+}
+.mc-tab-label { font-size: 28rpx; color: var(--text-secondary); }
+.mc-tabitem.active .mc-tab-label { color: var(--primary); font-weight: 600; }
+.mc-tab-indicator {
+  width: 32rpx; height: 4rpx; background: var(--primary); border-radius: 2rpx;
+  margin: 8rpx auto 0;
+}

@@ -1,66 +1,24 @@
+/* 商户设置页 */
+@import '/app.wxss';
+
+.page-settings { padding: 24rpx; }
+
 .section { margin-bottom: 30rpx; }
-.section-title {
-  font-size: 30rpx;
-  font-weight: bold;
-  color: #333;
-  padding: 20rpx 20rpx 10rpx;
-}
-.card {
-  background: #fff;
-  border-radius: 16rpx;
-  padding: 24rpx;
-  margin: 0 20rpx;
-}
-.form-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20rpx 0;
-  border-bottom: 1rpx solid #f0f0f0;
-}
+.section-title { font-size: 30rpx; font-weight: bold; color: var(--text-primary); padding: 20rpx 20rpx 10rpx; }
+
+.card { background: var(--card-bg); border-radius: var(--radius-md); padding: 24rpx; margin: 0 0 20rpx; box-shadow: var(--shadow-sm); }
+
+.form-item { display: flex; justify-content: space-between; align-items: center; padding: 20rpx 0; border-bottom: 1rpx solid var(--border); transition: all 0.2s; }
 .form-item:last-child { border-bottom: none; }
-.label {
-  font-size: 28rpx;
-  color: #333;
-  width: 160rpx;
-}
-.input {
-  flex: 1;
-  text-align: right;
-  font-size: 28rpx;
-  color: #666;
-}
-.switch-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20rpx 0;
-}
-.switch-row text { font-size: 28rpx; color: #333; }
-.sub-label {
-  display: block;
-  font-size: 24rpx;
-  color: #999;
-  margin-bottom: 10rpx;
-  padding-left: 10rpx;
-}
-.save-btn {
-  background: #FF6B35 !important;
-  color: #fff !important;
-  border-radius: 40rpx !important;
-  font-size: 30rpx !important;
-  margin: 20rpx 40rpx !important;
-  height: 88rpx !important;
-  line-height: 88rpx !important;
-}
-.logout-btn {
-  width: calc(100% - 40rpx);
-  background: #fff !important;
-  color: #FF3B30 !important;
-  border: 1rpx solid #ddd !important;
-  border-radius: 40rpx !important;
-  font-size: 30rpx !important;
-  margin: 0 auto !important;
-  display: block;
-  text-align: center;
-}
+.label { font-size: 28rpx; color: var(--text-primary); width: 200rpx; }
+.input { flex: 1; text-align: right; font-size: 28rpx; color: var(--text-secondary); }
+
+.switch-row { display: flex; justify-content: space-between; align-items: center; padding: 20rpx 0; }
+.switch-row text { font-size: 28rpx; color: var(--text-primary); }
+.sub-label { display: block; font-size: 24rpx; color: var(--text-placeholder); margin-bottom: 10rpx; padding-left: 10rpx; }
+
+.save-btn { background: var(--primary) !important; color: #fff !important; border-radius: var(--radius-round) !important; font-size: 30rpx !important; margin: 20rpx 40rpx !important; height: 88rpx !important; line-height: 88rpx !important; transition: opacity 0.2s; }
+.save-btn:active { opacity: 0.8; }
+
+.logout-btn { width: calc(100% - 80rpx); background: var(--card-bg) !important; color: var(--danger) !important; border: 2rpx solid var(--border) !important; border-radius: var(--radius-round) !important; font-size: 30rpx !important; margin: 0 auto !important; display: block; text-align: center; padding: 20rpx; transition: all 0.2s; }
+.logout-btn:active { background: #FFF1F0 !important; }

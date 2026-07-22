@@ -1,24 +1,39 @@
+/* 商户入驻申请页 */
+@import '/app.wxss';
+
 .page-merchant { padding: 24rpx; }
-.gradient-primary { background: linear-gradient(135deg, #FF6B35, #FF8F5E); padding: 40rpx; border-radius: 16rpx; color: white; text-align: center; margin-bottom: 24rpx; }
+
+.gradient-primary { background: linear-gradient(135deg, var(--primary), var(--primary-light)); padding: 40rpx; border-radius: var(--radius-lg); color: white; text-align: center; margin-bottom: 24rpx; transition: transform 0.2s; }
+.gradient-primary:active { transform: scale(0.98); }
 .banner-title { font-size: 36rpx; font-weight: 600; display: block; margin-bottom: 8rpx; }
 .banner-desc { font-size: 24rpx; opacity: 0.9; }
-.card { background: #fff; border-radius: 16rpx; padding: 28rpx; margin-bottom: 24rpx; box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.06); }
-.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24rpx; padding-bottom: 16rpx; border-bottom: 1rpx solid #eee; }
-.card-title { font-size: 30rpx; font-weight: 600; color: #333; }
+
+.card { background: var(--card-bg); border-radius: var(--radius-md); padding: 28rpx; margin-bottom: 24rpx; box-shadow: var(--shadow-card); }
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24rpx; padding-bottom: 16rpx; border-bottom: 1rpx solid var(--border); }
+.card-title { font-size: 30rpx; font-weight: 600; color: var(--text-primary); }
+
 .form-group { margin-bottom: 24rpx; }
-.label { font-size: 26rpx; color: #666; margin-bottom: 12rpx; display: block; }
-.label.required::before { content: '*'; color: #FF6B35; margin-right: 4rpx; }
-input { width: 100%; height: 80rpx; padding: 0 20rpx; border: 2rpx solid #eee; border-radius: 12rpx; font-size: 28rpx; }
-input:focus { border-color: #FF6B35; }
-.upload-area { width: 160rpx; height: 160rpx; border: 2rpx dashed #ddd; border-radius: 12rpx; display: flex; align-items: center; justify-content: center; margin-top: 12rpx; }
-.upload-placeholder { color: #999; font-size: 24rpx; }
-.logo-preview { width: 160rpx; height: 160rpx; border-radius: 12rpx; }
+.label { font-size: 26rpx; color: var(--text-secondary); margin-bottom: 12rpx; display: block; }
+.label.required::before { content: '*'; color: var(--danger); margin-right: 4rpx; }
+
+input { width: 100%; height: 80rpx; padding: 0 20rpx; border: 2rpx solid var(--border); border-radius: var(--radius-sm); font-size: 28rpx; color: var(--text-primary); transition: border-color 0.2s; }
+input:focus { border-color: var(--primary); }
+
+.upload-area { width: 160rpx; height: 160rpx; border: 2rpx dashed var(--border); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-top: 12rpx; transition: all 0.2s; }
+.upload-area:active { border-color: var(--primary); opacity: 0.8; }
+.upload-placeholder { color: var(--text-secondary); font-size: 24rpx; }
+.logo-preview { width: 160rpx; height: 160rpx; border-radius: var(--radius-sm); }
+
 .service-tags { display: flex; flex-wrap: wrap; gap: 16rpx; }
-.tag { padding: 12rpx 24rpx; border: 2rpx solid #eee; border-radius: 32rpx; font-size: 24rpx; color: #666; transition: all 0.2s; }
-.tag.active { background: #FF6B35; color: white; border-color: #FF6B35; }
-.textarea { width: 100%; height: 200rpx; padding: 20rpx; border: 2rpx solid #eee; border-radius: 12rpx; font-size: 28rpx; box-sizing: border-box; }
+.tag { padding: 12rpx 24rpx; border: 2rpx solid var(--border); border-radius: var(--radius-round); font-size: 24rpx; color: var(--text-secondary); transition: all 0.2s; }
+.tag.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+.tag:active { transform: scale(0.95); }
+
+.textarea { width: 100%; height: 200rpx; padding: 20rpx; border: 2rpx solid var(--border); border-radius: var(--radius-sm); font-size: 28rpx; box-sizing: border-box; }
+
 .agreement { margin: 24rpx 0; }
-.agreement-label { display: flex; align-items: center; gap: 8rpx; font-size: 24rpx; color: #999; }
-.link { color: #4A90D9; text-decoration: underline; }
+.agreement-label { display: flex; align-items: center; gap: 8rpx; font-size: 24rpx; color: var(--text-placeholder); }
+.link { color: var(--secondary); text-decoration: underline; }
+
 .submit-btn { margin-top: 32rpx; margin-bottom: 20rpx; }
-.hint-text { text-align: center; font-size: 22rpx; color: #999; line-height: 1.6; }
+.hint-text { text-align: center; font-size: 22rpx; color: var(--text-placeholder); line-height: 1.6; }

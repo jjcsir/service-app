@@ -1,0 +1,12 @@
+.mc-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-md);
+  padding: 28rpx;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 20rpx;
+}
+.mc-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20rpx; }
+.mc-card-title { font-size: 30rpx; font-weight: 600; color: var(--text-primary); }
+.mc-card-actions { }
+.mc-card-action-text { font-size: 24rpx; color: var(--primary); }
+.mc-card-body { }

@@ -4,23 +4,23 @@
     "pages/book/book",
     "pages/order/order",
     "pages/mine/mine",
-    "pages/merchant/apply/apply",
-    "pages/rider/home/home",
-    "pages/rider/grab/grab",
-    "pages/rider/orders/orders",
-    "pages/coupon/coupon",
+    "pages/merchant/home/home",
+    "pages/merchant/orders/orders",
     "pages/merchant/shops/shops",
     "pages/merchant/staff/staff",
     "pages/merchant/finance/finance",
-    "pages/wallet/wallet",
-    "pages/dist/detail/detail",
-    "pages/dist/withdraw/withdraw"
+    "pages/merchant/profile/profile",
+    "pages/merchant/settings/settings",
+    "pages/merchant/notifications/notifications",
+    "pages/rider/home/home",
+    "pages/rider/grab/grab",
+    "pages/rider/orders/orders"
   ],
   "window": {
     "navigationBarBackgroundColor": "#FF6B35",
     "navigationBarTitleText": "上门好服务",
     "navigationBarTextStyle": "white",
-    "backgroundColor": "#F5F5F5",
+    "backgroundColor": "#F7F8FA",
     "backgroundTextStyle": "dark"
   },
   "tabBar": {
@@ -29,19 +29,11 @@
     "backgroundColor": "#FFFFFF",
     "borderStyle": "black",
     "list": [
-      {
-        "pagePath": "pages/index/index",
-        "text": "首页"
-      },
-      {
-        "pagePath": "pages/order/order",
-        "text": "订单"
-      },
-      {
-        "pagePath": "pages/mine/mine",
-        "text": "我的"
-      }
+      { "pagePath": "pages/index/index", "text": "首页" },
+      { "pagePath": "pages/order/order", "text": "订单" },
+      { "pagePath": "pages/mine/mine", "text": "我的" }
     ]
   },
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "usingComponents": {}
 }

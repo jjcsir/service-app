@@ -1,0 +1,15 @@
+<view class="mc-modal-overlay {{show ? 'show' : ''}}" bindtap="onClose">
+  <view class="mc-modal-content {{show ? 'show' : ''}}" catchtap="stopProp">
+    <view class="mc-modal-header">
+      <text class="mc-modal-title">{{title}}</text>
+      <text class="mc-modal-close" bindtap="onClose">×</text>
+    </view>
+    <view class="mc-modal-body">
+      <slot />
+    </view>
+    <view class="mc-modal-footer" wx:if="{{hasFooter}}">
+      <button class="mc-btn mc-btn-cancel" bindtap="onCancel">{{cancelText || '取消'}}</button>
+      <button class="mc-btn mc-btn-confirm btn-primary" bindtap="onConfirm">{{confirmText || '确定'}}</button>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,21 @@
+.mc-modal-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5); z-index: 1000;
+  display: flex; align-items: flex-end; justify-content: center;
+  opacity: 0; transition: opacity 0.3s ease;
+}
+.mc-modal-overlay.show { opacity: 1; }
+.mc-modal-content {
+  background: #fff; width: 100%; border-radius: 32rpx 32rpx 0 0;
+  padding: 40rpx 30rpx; max-height: 80vh; overflow-y: auto;
+  transform: translateY(100%); transition: transform 0.3s ease;
+}
+.mc-modal-overlay.show .mc-modal-content { transform: translateY(0); }
+.mc-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30rpx; }
+.mc-modal-title { font-size: 32rpx; font-weight: bold; color: var(--text-primary); }
+.mc-modal-close { font-size: 40rpx; color: var(--text-placeholder); }
+.mc-modal-body { margin-bottom: 30rpx; }
+.mc-modal-footer { display: flex; gap: 20rpx; }
+.mc-btn { flex: 1; padding: 16rpx; text-align: center; border-radius: 12rpx; font-size: 28rpx; }
+.mc-btn-cancel { background: #f5f5f5; color: var(--text-secondary); }
+.mc-btn-confirm { background: var(--primary); color: #fff; }

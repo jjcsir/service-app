@@ -1,58 +1,87 @@
-const API = 'http://localhost:5000/api';
+const BASE_URL = 'http://localhost:5000'
 
-function request(url, method = 'GET', data = {}) {
-  const token = wx.getStorageSync('merchant_token') || wx.getStorageSync('rider_token');
-  
+// Token 存取
+function getToken() { return wx.getStorageSync('token') || '' }
+function setToken(t) { wx.setStorageSync('token', t) }
+function removeToken() { wx.removeStorageSync('token') }
+
+// 用户信息存取
+function getUserInfo() { try { return JSON.parse(wx.getStorageSync('userInfo')) || {} } catch { return {} } }
+function setUserInfo(u) { wx.setStorageSync('userInfo', JSON.stringify(u)) }
+function removeUserInfo() { wx.removeStorageSync('userInfo') }
+
+// 通用请求方法
+function request(url, method = 'GET', data = {}, needAuth = false) {
   return new Promise((resolve, reject) => {
+    const token = needAuth ? getToken() : ''
     wx.request({
-      url: API + url,
+      url: BASE_URL + url,
       method,
       data,
       header: {
         'Content-Type': 'application/json',
-        ...(token ? { Authorization: `Bearer ${token}` } : {})
+        ...(token ? { Authorization: 'Bearer ' + token } : {})
       },
-      success: (res) => resolve(res.data),
-      fail: (err) => reject(err)
-    });
-  });
+      success(res) {
+        if (res.statusCode === 401 || (res.data && res.data.code === 401)) {
+          removeToken()
+          removeUserInfo()
+          wx.showToast({ title: '请重新登录', icon: 'none' })
+          setTimeout(() => { wx.reLaunch({ url: '/pages/mine/mine' }) }, 1500)
+          reject(new Error('未登录'))
+          return
+        }
+        if (res.data && res.data.code === 0) {
+          resolve(res.data)
+        } else {
+          wx.showToast({ title: res.data.message || '请求失败', icon: 'none' })
+          reject(new Error(res.data.message || '请求失败'))
+        }
+      },
+      fail(err) {
+        wx.showToast({ title: '网络错误', icon: 'none' })
+        reject(err)
+      }
+    })
+  })
 }
 
-// ============ 商户接口 ============
 module.exports = {
-  // 商户资料
-  getMerchantProfile(merchantId) {
-    return request(`/api/merchants/${merchantId}/profile`);
-  },
-  
-  updateMerchant(merchantId, data) {
-    return request(`/api/merchants/${merchantId}/profile`, 'PUT', data);
-  },
+  BASE_URL,
+  getToken, setToken, removeToken,
+  getUserInfo, setUserInfo, removeUserInfo,
+  request,
 
-  // 已有接口（保持兼容）
-  login(data) { return request('/auth/login', 'POST', data); },
-  getServices() { return request('/services'); },
-  getCategories() { return request('/categories'); },
-  getBanners() { return request('/banners'); },
-  getFAQs() { return request('/faqs'); },
-  
-  createOrder(data) { return request('/orders', 'POST', data); },
-  listOrders(params = {}) { 
-    const qs = Object.entries(params).map(([k,v]) => `${k}=${v}`).join('&');
-    return request(`/orders${qs ? '?' + qs : ''}`); 
-  },
-  getOrderDetail(id) { return request(`/orders/${id}`); },
-  cancelOrder(id) { return request(`/orders/${id}`, 'DELETE'); },
-  
-  riderRegister(data) { return request('/rider/register', 'POST', data); },
-  riderLogin(data) { return request('/rider/login', 'POST', data); },
-  riderGrabPool(data) { return request('/rider/grab-pool', 'POST', data); },
-  riderGrabOrder(data) { return request('/rider/grab-order', 'POST', data); },
-  riderMyOrders(params = {}) {
-    const qs = Object.entries(params).map(([k,v]) => `${k}=${v}`).join('&');
-    return request(`/rider/orders?${qs}`);
-  },
-  riderUpdateOrderStatus(data) { return request(`/rider/orders/${data.order_no}/status`, 'PUT', data); },
-  riderStats() { return request('/rider/stats'); },
-  riderUpdateStatus(data) { return request('/rider/status', 'PUT', data); },
-};
+  // ========== 认证 ==========
+  login: (data) => request('/api/auth/login', 'POST', data),
+
+  // ========== 用户 ==========
+  getProfile: () => request('/api/users/me', 'GET', {}, true),
+  updateProfile: (data) => request('/api/users/me', 'PUT', data, true),
+  getWallet: () => request('/api/users/me/wallet', 'GET', {}, true),
+  topup: (data) => request('/api/users/me/wallet/topup', 'POST', data, true),
+
+  // ========== 服务/分类 ==========
+  getCategories: () => request('/api/categories', 'GET'),
+  getServices: (params) => request('/api/services', 'GET', params || {}),
+  getBanners: () => request('/api/banners', 'GET'),
+  getAnnouncements: () => request('/api/announcements', 'GET'),
+  getFAQs: () => request('/api/faqs', 'GET'),
+
+  // ========== 优惠券 ==========
+  getCoupons: () => request('/api/coupons', 'GET'),
+  claimCoupon: (coupon_id) => request('/api/coupons/claim', 'POST', { coupon_id }, true),
+
+  // ========== 订单 ==========
+  createOrder: (data) => request('/api/orders', 'POST', data, true),
+  listOrders: (params) => request('/api/orders', 'GET', params || {}, true),
+  getOrderDetail: (id) => request('/api/orders/' + id, 'GET', {}, true),
+  cancelOrder: (id) => request('/api/orders/' + id, 'DELETE', {}, true),
+
+  // ========== 商户通知 & 设置 ==========
+  getMerchantNotifications: (merchantId) => request('/api/merchants/' + (merchantId || 1) + '/notifications', 'GET'),
+  markNotificationRead: (id) => request('/api/merchants/' + (merchantId || 1) + '/notifications/' + id + '/read', 'PUT'),
+  markAllNotificationsRead: () => request('/api/merchants/' + (merchantId || 1) + '/notifications/read-all', 'POST'),
+  getMerchantSettings: (merchantId) => request('/api/merchants/' + (merchantId || 1) + '/settings', 'GET'),
+  updateMerchantSettings: (data) => request('/api/merchants/' + (data.merchantId || 1) + '/settings', 'PUT', data)
+}
