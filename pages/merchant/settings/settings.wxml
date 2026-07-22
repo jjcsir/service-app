@@ -1,0 +1,83 @@
+<view class="container">
+  <!-- 商户信息 -->
+  <view class="section">
+    <text class="section-title">商户信息</text>
+    <view class="card">
+      <view class="form-item">
+        <text class="label">商户名称</text>
+        <input class="input" placeholder="请输入商户名称" value="{{merchantName}}" bindinput="onNameInput" />
+      </view>
+      <view class="form-item">
+        <text class="label">联系电话</text>
+        <input class="input" placeholder="请输入联系电话" type="number" value="{{contactPhone}}" bindinput="onPhoneInput" />
+      </view>
+      <view class="form-item">
+        <text class="label">联系邮箱</text>
+        <input class="input" placeholder="请输入邮箱地址" type="text" value="{{contactEmail}}" bindinput="onEmailInput" />
+      </view>
+      <view class="form-item">
+        <text class="label">经营地址</text>
+        <input class="input" placeholder="请输入经营地址" value="{{address}}" bindinput="onAddressInput" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 通知设置 -->
+  <view class="section">
+    <text class="section-title">通知设置</text>
+    <view class="card">
+      <view class="switch-row">
+        <text>推送通知</text>
+        <switch checked="{{pushEnabled}}" color="#FF6B35" bindchange="onPushToggle" />
+      </view>
+      <view class="switch-row">
+        <text>声音提醒</text>
+        <switch checked="{{soundEnabled}}" color="#FF6B35" bindchange="onSoundToggle" />
+      </view>
+      <view class="switch-row">
+        <text>震动提醒</text>
+        <switch checked="{{vibrationEnabled}}" color="#FF6B35" bindchange="onVibrateToggle" />
+      </view>
+    </view>
+
+    <!-- 通知类型 -->
+    <view class="card" style="margin-top: 20rpx;">
+      <text class="sub-label">通知类型</text>
+      <view class="switch-row">
+        <text>订单通知</text>
+        <switch checked="{{orderNotify}}" color="#FF6B35" bindchange="onOrderNotifyToggle" />
+      </view>
+      <view class="switch-row">
+        <text>系统公告</text>
+        <switch checked="{{systemNotify}}" color="#FF6B35" bindchange="onSystemNotifyToggle" />
+      </view>
+      <view class="switch-row">
+        <text>财务通知</text>
+        <switch checked="{{financeNotify}}" color="#FF6B35" bindchange="onFinanceNotifyToggle" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 通用设置 -->
+  <view class="section">
+    <text class="section-title">通用设置</text>
+    <view class="card">
+      <view class="switch-row">
+        <text>深色模式</text>
+        <switch checked="{{theme === 'dark'}}" color="#FF6B35" bindchange="onThemeChange" />
+      </view>
+      <view class="switch-row">
+        <text>语言：{{language}}</text>
+        <navigator url="" open-type="navigate">></navigator>
+      </view>
+    </view>
+  </view>
+
+  <!-- 保存按钮 -->
+  <button class="save-btn" bindtap="saveSettings">保存设置</button>
+
+  <!-- 退出登录 -->
+  <view style="padding: 40rpx 20rpx;">
+    <button class="logout-btn" bindtap="onLogout">退出登录</button>
+  </view>
+</view>

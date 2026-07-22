@@ -1,0 +1,51 @@
+<view class="container">
+  <!-- Tab 筛选 -->
+  <view class="tabs-bar">
+    <view class="tab-item {{activeTab==index?'active':''}}" 
+          wx:for="{{tabs}}" wx:key="index" 
+          bindtap="switchTab" data-index="{{index}}">
+      <text>{{item.label}}</text>
+    </view>
+  </view>
+
+  <!-- 操作栏 -->
+  <view class="action-bar">
+    <text class="total-count">共 {{messages.length}} 条消息</text>
+    <button class="mark-all-btn" size="mini" bindtap="markAllRead">全部已读</button>
+  </view>
+
+  <!-- 消息列表 -->
+  <view class="message-list" wx:if="{{!loading}}">
+    <view class="msg-card {{item.isRead ? 'read' : 'unread'}}" wx:for="{{messages}}" wx:key="id" bindtap="markAsRead" data-id="{{item.id}}">
+      <!-- 未读标记点 -->
+      <view class="unread-dot" wx:if="{{!item.isRead}}"></view>
+      
+      <!-- 消息头部 -->
+      <view class="msg-header">
+        <view class="type-badge {{item.typeClass}}">
+          <text>{{item.type === 'order' ? '📋订单' : item.type === 'system' ? '💡系统' : '💰财务'}}</text>
+        </view>
+        <text class="msg-time">{{item.time}}</text>
+      </view>
+      
+      <!-- 消息内容 -->
+      <view class="msg-body">
+        <text class="msg-title {{!item.isRead ? 'bold' : ''}}">{{item.title}}</text>
+        <text class="msg-content">{{item.content}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading-tip" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:else class="empty-state">
+    <text class="empty-icon">🔔</text>
+    <text class="empty-text">暂无消息</text>
+  </view>
+
+  <view style="height: 60rpx;"></view>
+</view>

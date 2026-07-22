@@ -1,0 +1,118 @@
+<!-- 商户个人资料页 -->
+<view class="container">
+  <!-- 头像区域 -->
+  <view class="avatar-section">
+    <image class="avatar" src="{{merchant.avatar || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+    <view class="avatar-edit" bindtap="chooseAvatar">重新选择</view>
+  </view>
+
+  <!-- 基本信息 -->
+  <view class="form-section">
+    <view class="section-title">基本信息</view>
+    
+    <!-- 商户名称 -->
+    <view class="form-item">
+      <text class="label">商户名称</text>
+      <input class="input" value="{{merchant.name}}" placeholder="请输入商户名称" bindinput="onNameInput" />
+    </view>
+
+    <!-- 联系人 -->
+    <view class="form-item">
+      <text class="label">联系人</text>
+      <input class="input" value="{{merchant.contact}}" placeholder="请输入联系人姓名" bindinput="onContactInput" />
+    </view>
+
+    <!-- 手机号 -->
+    <view class="form-item">
+      <text class="label">联系电话</text>
+      <input class="input" type="number" value="{{merchant.phone}}" placeholder="请输入联系电话" bindinput="onPhoneInput" />
+    </view>
+
+    <!-- 地址 -->
+    <view class="form-item">
+      <text class="label">经营地址</text>
+      <input class="input" value="{{merchant.address}}" placeholder="请输入经营地址" bindinput="onAddressInput" />
+    </view>
+
+    <!-- 经营范围 -->
+    <view class="form-item">
+      <text class="label">经营范围</text>
+      <textarea class="textarea" value="{{merchant.description}}" placeholder="请输入经营范围描述" bindinput="onDescInput" />
+    </view>
+  </view>
+
+  <!-- 认证状态 -->
+  <view class="cert-section">
+    <view class="section-title">认证信息</view>
+    
+    <view class="cert-item {{merchant.cert_status === 1 ? 'cert-active' : 'cert-pending'}}">
+      <text class="cert-label">资质认证</text>
+      <text class="cert-status">{{certStatusText}}</text>
+    </view>
+
+    <view class="cert-item">
+      <text class="cert-label">营业执照</text>
+      <text class="cert-value">{{merchant.business_license ? '已上传' : '未上传'}}</text>
+      <view class="cert-action" bindtap="uploadLicense" wx:if="{{!merchant.business_license}}">上传</view>
+    </view>
+
+    <view class="cert-item">
+      <text class="cert-label">法人身份证</text>
+      <text class="cert-value">{{merchant.id_card ? '已上传' : '未上传'}}</text>
+      <view class="cert-action" bindtap="uploadIdCard" wx:if="{{!merchant.id_card}}">上传</view>
+    </view>
+  </view>
+
+  <!-- 账户设置 -->
+  <view class="account-section">
+    <view class="section-title">账户设置</view>
+
+    <view class="account-item" bindtap="editPassword">
+      <text class="item-label">修改密码</text>
+      <text class="item-arrow">></text>
+    </view>
+
+    <view class="account-item" bindtap="openNotification">
+      <text class="item-label">消息通知</text>
+      <switch checked="{{merchant.notification_enabled}}" bindchange="onNotifyChange" />
+    </view>
+
+    <view class="account-item" bindtap="openPrivacy">
+      <text class="item-label">隐私政策</text>
+      <text class="item-arrow">></text>
+    </view>
+  </view>
+
+  <!-- 余额与统计 -->
+  <view class="stats-section">
+    <view class="section-title">账户概览</view>
+    <view class="stats-grid">
+      <view class="stat-item">
+        <text class="stat-value">{{wallet.balance}}</text>
+        <text class="stat-label">余额(元)</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{stats.totalOrders}}</text>
+        <text class="stat-label">总订单</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{stats.todayOrders}}</text>
+        <text class="stat-label">今日订单</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{stats.monthRevenue}}</text>
+        <text class="stat-label">月营收(元)</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 保存按钮 -->
+  <view class="btn-save-wrap">
+    <button class="btn-save" bindtap="saveProfile">保存资料</button>
+  </view>
+
+  <!-- 退出登录 -->
+  <view class="btn-logout-wrap">
+    <button class="btn-logout" bindtap="logout">退出登录</button>
+  </view>
+</view>

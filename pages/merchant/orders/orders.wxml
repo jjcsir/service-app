@@ -1,0 +1,134 @@
+<!-- 商户端订单管理页面 -->
+<view class="page-merchant-orders">
+  
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <input 
+      class="search-input" 
+      placeholder="搜索订单编号" 
+      value="{{keyword}}" 
+      bindinput="onSearchInput"
+      bindconfirm="onSearch"
+    />
+    <button class="search-btn btn-text" size="mini" bindtap="onSearch">搜索</button>
+  </view>
+
+  <!-- 统计概览 -->
+  <view class="stats-row card">
+    <view class="stat-box {{activeTab === 0 ? 'active' : ''}}" bindtap="switchTab" data-index="0">
+      <text class="num">{{orderCounts.all}}</text>
+      <text class="label">全部</text>
+    </view>
+    <view class="stat-box {{activeTab === 1 ? 'active' : ''}}" bindtap="switchTab" data-index="1">
+      <text class="num">{{orderCounts.pending}}</text>
+      <text class="label">待处理</text>
+    </view>
+    <view class="stat-box {{activeTab === 2 ? 'active' : ''}}" bindtap="switchTab" data-index="2">
+      <text class="num">{{orderCounts.inProgress}}</text>
+      <text class="label">进行中</text>
+    </view>
+    <view class="stat-box {{activeTab === 3 ? 'active' : ''}}" bindtap="switchTab" data-index="3">
+      <text class="num">{{orderCounts.completed}}</text>
+      <text class="label">已完成</text>
+    </view>
+    <view class="stat-box {{activeTab === 4 ? 'active' : ''}}" bindtap="switchTab" data-index="4">
+      <text class="num">{{orderCounts.cancelled}}</text>
+      <text class="label">已取消</text>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{!loading && orders.length === 0}}">
+    <text class="empty-icon">📦</text>
+    <text class="empty-text">暂无订单</text>
+  </view>
+
+  <!-- 订单列表 -->
+  <view class="order-list" wx:else>
+    <view class="order-card card" wx:for="{{orders}}" wx:key="id">
+      <!-- 订单头部 -->
+      <view class="oc-top flex-between">
+        <view class="oc-order-info">
+          <text class="oc-no">{{item.order_no}}</text>
+          <text class="oc-time">{{item.created_at?.split(' ')[0] || ''}}</text>
+        </view>
+        <view class="oc-status {{statusClass(item.status)}}">{{statusText(item.status)}}</view>
+      </view>
+
+      <!-- 商品信息 -->
+      <view class="oc-body">
+        <view class="oc-row flex-between">
+          <text class="oc-service-name text-ellipsis">{{item.service_name || '上门服务'}}</text>
+          <text class="oc-amount">¥{{item.paid_amount || item.total_amount || 0}}</text>
+        </view>
+        <view class="oc-row">
+          <text class="oc-label">下单人：</text>
+          <text class="oc-value">{{item.user_nickname || '匿名用户'}}</text>
+        </view>
+        <view class="oc-row">
+          <text class="oc-label">联系方式：</text>
+          <text class="oc-value">{{item.user_phone || '-'}}</text>
+        </view>
+        <view class="oc-row">
+          <text class="oc-label">服务地址：</text>
+          <text class="oc-value text-ellipsis">{{item.start_address || '-'}}</text>
+        </view>
+      </view>
+
+      <!-- 备注 -->
+      <view class="oc-remark" wx:if="{{item.remark}}">
+        <text class="oc-remark-text">💬 {{item.remark}}</text>
+      </view>
+
+      <!-- 底部操作栏 -->
+      <view class="oc-footer flex-between">
+        <text class="oc-count">数量：{{item.quantity || 1}}</text>
+        <view class="oc-actions">
+          <button 
+            class="action-btn btn-primary btn-sm" 
+            wx:if="{{item.status === 0}}" 
+            bindtap="onConfirmOrder" 
+            data-id="{{item.id}}">
+            确认接单
+          </button>
+          <button 
+            class="action-btn btn-warning btn-sm" 
+            wx:if="{{item.status === 1}}" 
+            bindtap="onStartService" 
+            data-id="{{item.id}}">
+            开始服务
+          </button>
+          <button 
+            class="action-btn btn-success btn-sm" 
+            wx:if="{{item.status === 2}}" 
+            bindtap="onCompleteOrder" 
+            data-id="{{item.id}}">
+            标记完成
+          </button>
+          <button 
+            class="action-btn btn-danger btn-sm" 
+            wx:if="{{item.status <= 1}}" 
+            bindtap="onCancelOrder" 
+            data-id="{{item.id}}">
+            取消
+          </button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-mask" wx:if="{{loading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 加载更多 -->
+  <view class="load-more" wx:if="{{hasMore && !loading}}" bindtap="onLoadMore">
+    <text class="load-more-text">点击加载更多</text>
+  </view>
+  <view class="load-more end" wx:if="{{!hasMore && !loading && orders.length > 0}}">
+    <text class="load-more-text">没有更多了</text>
+  </view>
+
+</view>
