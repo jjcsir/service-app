@@ -58,6 +58,9 @@
         <a href="#" class="nav-item" onclick="showSection('users')">
           <span class="nav-icon">👥</span> 用户管理
         </a>
+        <a href="#" class="nav-item" onclick="showSection('merchants')">
+          <span class="nav-icon">🏢</span> 商户管理
+        </a>
       </nav>
       <div class="sidebar-footer">
         <button class="btn-secondary btn-full" onclick="logout()">退出登录</button>
@@ -298,6 +301,72 @@
               <tr><td colspan="5" class="empty-row">加载中...</td></tr>
             </tbody>
           </table>
+        </div>
+      </section>
+
+      <!-- Merchants Section -->
+      <section id="section-merchants" class="content-section hidden">
+        <div class="toolbar">
+          <input type="text" class="search-input" id="merchant-search" placeholder="搜索商户名称或电话..." oninput="debounceSearchMerchant()">
+          <select class="filter-select" id="merchant-status-filter" onchange="loadMerchants()">
+            <option value="">全部状态</option>
+            <option value="1">待审核</option>
+            <option value="2">已通过</option>
+            <option value="3">已拒绝</option>
+          </select>
+          <button class="btn-secondary" onclick="loadMerchants()">刷新</button>
+        </div>
+
+        <div class="card">
+          <table class="data-table" id="merchants-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>商户名称</th>
+                <th>联系人</th>
+                <th>电话</th>
+                <th>地址</th>
+                <th>状态</th>
+                <th>申请时间</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="merchants-tbody">
+              <tr><td colspan="8" class="empty-row">加载中...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Merchant Detail Modal -->
+        <div id="merchant-modal" class="modal">
+          <div class="modal-content modal-lg">
+            <div class="modal-header">
+              <h3>商户详情</h3>
+              <button class="close-btn" onclick="closeMerchantModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="merchant-detail-content"></div>
+          </div>
+        </div>
+
+        <!-- Merchant Review Modal -->
+        <div id="merchant-review-modal" class="modal">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3>审核商户</h3>
+              <button class="close-btn" onclick="closeReviewModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label>审核意见</label>
+                <textarea id="review-remark" class="form-control" rows="3" placeholder="请输入审核意见（选填）"></textarea>
+              </div>
+              <input type="hidden" id="merchant-id-to-review">
+              <div class="modal-actions">
+                <button class="btn-danger" onclick="reviewMerchant(false)">拒绝</button>
+                <button class="btn-primary" onclick="reviewMerchant(true)">通过</button>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </main>

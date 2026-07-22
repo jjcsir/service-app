@@ -56,7 +56,8 @@ function showSection(section) {
     orders: '订单管理',
     riders: '骑手管理',
     services: '服务管理',
-    users: '用户管理'
+    users: '用户管理',
+    merchants: '商户管理'
   };
   document.getElementById('page-title').textContent = titles[section] || '数据概览';
   
@@ -67,6 +68,7 @@ function showSection(section) {
     case 'riders': loadRiders(); break;
     case 'services': loadServices(); break;
     case 'users': loadUsers(); break;
+    case 'merchants': loadMerchants(); break;
   }
 }
 
@@ -451,3 +453,174 @@ document.querySelectorAll('.modal').forEach(modal => {
   });
 });
 
+
+// ==================== 商户管理 ====================
+async function loadMerchants() {
+  const tbody = document.getElementById('merchants-tbody');
+  if (!tbody) return;
+  
+  tbody.innerHTML = '<tr><td colspan="8" class="empty-row">加载中...</td></tr>';
+  
+  const statusFilter = document.getElementById('merchant-status-filter')?.value || '';
+  const searchTerm = document.getElementById('merchant-search')?.value || '';
+  
+  try {
+    const res = await merchantsAPI.list(statusFilter, searchTerm);
+    const merchants = res?.data?.merchants || [];
+    
+    if (merchants.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="8" class="empty-row">暂无数据</td></tr>';
+      return;
+    }
+    
+    const statusBadge = (s) => {
+      const map = {
+        0: '<span class="badge badge-gray">已禁用</span>',
+        1: '<span class="badge badge-warning">待审核</span>',
+        2: '<span class="badge badge-green">已通过</span>',
+        3: '<span class="badge badge-red">已拒绝</span>'
+      };
+      return map[s] || '-';
+    };
+    
+    tbody.innerHTML = merchants.map(m => `
+      <tr>
+        <td>${m.id}</td>
+        <td><strong>${m.name || '-'}</strong></td>
+        <td>${m.contact || '-'}</td>
+        <td>${m.phone || '-'}</td>
+        <td>${m.address || '-'}</td>
+        <td>${statusBadge(m.status)}</td>
+        <td>${formatDate(m.created_at)}</td>
+        <td>
+          <button class="btn-link" onclick="viewMerchant(${m.id})">查看详情</button>
+          ${m.status == 1 ? `<button class="btn-link" onclick="openReviewModal(${m.id})">审核</button>` : ''}
+          <button class="btn-link btn-danger-link" onclick="deleteMerchant(${m.id})">删除</button>
+        </td>
+      </tr>
+    `).join('');
+  } catch (err) {
+    console.error('加载商户失败:', err);
+    tbody.innerHTML = '<tr><td colspan="8" class="empty-row" style="color:red;">加载失败</td></tr>';
+  }
+}
+
+// 防抖搜索
+let merchantSearchTimer = null;
+function debounceSearchMerchant() {
+  clearTimeout(merchantSearchTimer);
+  merchantSearchTimer = setTimeout(loadMerchants, 500);
+}
+
+// 查看商户详情
+async function viewMerchant(id) {
+  const modalBody = document.getElementById('merchant-detail-content');
+  modalBody.innerHTML = '<p style="text-align:center;color:#999;">加载中...</p>';
+  document.getElementById('merchant-modal').classList.remove('hidden');
+  
+  try {
+    const res = await merchantsAPI.detail(id);
+    const m = res.data;
+    if (!m) return;
+    
+    modalBody.innerHTML = `
+      <div style="margin-bottom:20px;">
+        <h4 style="margin-bottom:12px;">基本信息</h4>
+        <div class="info-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div><strong>商户名称:</strong> ${m.name || '-'}</div>
+          <div><strong>联系人:</strong> ${m.contact || '-'}</div>
+          <div><strong>联系电话:</strong> ${m.phone || '-'}</div>
+          <div><strong>经营地址:</strong> ${m.address || '-'}</div>
+          <div><strong>状态:</strong> ${m.status == 1 ? '待审核' : m.status == 2 ? '已通过' : m.status == 3 ? '已拒绝' : '已禁用'}</div>
+          <div><strong>申请时间:</strong> ${formatDate(m.created_at)}</div>
+        </div>
+      </div>
+      
+      <div style="margin-top:20px;">
+        <h4 style="margin-bottom:12px;">店铺列表 (${(m.shops || []).length})</h4>
+        ${(m.shops && m.shops.length > 0) ? `
+          <table class="data-table" style="margin-bottom:20px;">
+            <thead><tr><th>店名</th><th>类型</th><th>联系电话</th></tr></thead>
+            <tbody>
+              ${m.shops.map(s => `<tr><td>${s.name}</td><td>${s.type_name || '-'}</td><td>${s.contact_phone || '-'}</td></tr>`).join('')}
+            </tbody>
+          </table>
+        ` : '<p style="color:#999;">暂无店铺</p>'}
+      </div>
+      
+      <div style="margin-top:20px;">
+        <h4 style="margin-bottom:12px;">店员列表 (${(m.staff || []).length})</h4>
+        ${(m.staff && m.staff.length > 0) ? `
+          <table class="data-table" style="margin-bottom:20px;">
+            <thead><tr><th>姓名</th><th>电话</th><th>角色</th></tr></thead>
+            <tbody>
+              ${m.staff.map(s => `<tr><td>${s.name}</td><td>${s.phone || '-'}</td><td>${s.role || '-'}</td></tr>`).join('')}
+            </tbody>
+          </table>
+        ` : '<p style="color:#999;">暂无店员</p>'}
+      </div>
+      
+      <div style="margin-top:20px;">
+        <h4 style="margin-bottom:12px;">订单统计</h4>
+        <p>关联订单数: <strong>${m.order_count || 0}</strong></p>
+      </div>
+    `;
+  } catch (err) {
+    modalBody.innerHTML = '<p style="color:red;">加载失败</p>';
+  }
+}
+
+function closeMerchantModal() {
+  document.getElementById('merchant-modal').classList.add('hidden');
+}
+
+// 打开审核弹窗
+function openReviewModal(id) {
+  document.getElementById('merchant-id-to-review').value = id;
+  document.getElementById('review-remark').value = '';
+  document.getElementById('merchant-review-modal').classList.remove('hidden');
+}
+
+function closeReviewModal() {
+  document.getElementById('merchant-review-modal').classList.add('hidden');
+}
+
+// 审核商户
+async function reviewMerchant(approved) {
+  const id = parseInt(document.getElementById('merchant-id-to-review').value);
+  const remark = document.getElementById('review-remark').value;
+  
+  if (!id) return showToast('商户ID错误', 'error');
+  
+  try {
+    const res = await merchantsAPI.review(id, approved, remark);
+    if (res.code === 0) {
+      showToast(approved ? '审核通过' : '已拒绝', 'success');
+      closeReviewModal();
+      loadMerchants();
+    } else {
+      showToast(res.message || '操作失败', 'error');
+    }
+  } catch (err) {
+    console.error('审核失败:', err);
+    showToast('操作失败，请重试', 'error');
+  }
+}
+
+// 删除商户
+async function deleteMerchant(id) {
+  if (!confirm('确定要删除该商户吗？此操作不可恢复。')) return;
+  
+  try {
+    const res = await merchantsAPI.delete(id);
+    if (res.code === 0) {
+      showToast('删除成功', 'success');
+      loadMerchants();
+    } else {
+      showToast(res.message || '删除失败', 'error');
+    }
+  } catch (err) {
+    console.error('删除失败:', err);
+    showToast('操作失败，请重试', 'error');
+  }
+}

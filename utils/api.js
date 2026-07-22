@@ -106,6 +106,7 @@ module.exports = {
 
   // ========== 企业商户 ==========
   applyMerchant: (data) => request('/api/merchants/apply', 'POST', data),
+  getMerchantMyList: () => request("/api/merchants/my", "GET", {}, true),
   getMyMerchants: () => request('/api/merchants/my', 'GET', {}, true),
   getMerchantDetail: (id) => request('/api/merchants/' + id, 'GET'),
   addShop: (data) => request('/api/merchants/shops', 'POST', data, true),

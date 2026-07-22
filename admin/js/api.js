@@ -134,6 +134,30 @@ const usersAPI = {
   }
 };
 
+// Merchant management
+const merchantsAPI = {
+  list(status = '', keyword = '') {
+    let url = '/api/admin/merchants?perPage=100';
+    if (status) url += `&status=${status}`;
+    if (keyword) url += `&keyword=${encodeURIComponent(keyword)}`;
+    return request(url);
+  },
+  detail(merchantId) {
+    return request(`/api/admin/merchants/${merchantId}`);
+  },
+  review(merchantId, approved, remark = '') {
+    return request(`/api/admin/merchants/${merchantId}/review`, {
+      method: 'POST',
+      body: JSON.stringify({ merchant_id: merchantId, approved, remark })
+    });
+  },
+  delete(merchantId) {
+    return request(`/api/admin/merchants/${merchantId}`, {
+      method: 'DELETE'
+    });
+  }
+};
+
 // Utility functions
 function formatDate(dateStr) {
   if (!dateStr) return '-';

@@ -109,8 +109,28 @@ function addShopType(req, res) {
   res.json({ code: 0, data: item, message: '类型添加成功' });
 }
 
+
+// 审核商户
+function reviewMerchant(req, res) {
+  const { approved, remark } = req.body || {};
+  const merchantId = parseInt(req.params.id);
+  const merchant = updateById('merchants', merchantId, {
+    status: approved ? 2 : 3,
+    review_remark: remark || ''
+  });
+  if (!merchant) return res.json({ code: 404, message: '商户不存在' });
+  res.json({ code: 0, data: merchant, message: approved ? '审核通过' : '已拒绝' });
+}
+
+// 删除/禁用商户
+function deleteMerchant(req, res) {
+  const merchant = updateById('merchants', parseInt(req.params.id), { status: 0 });
+  if (!merchant) return res.json({ code: 404, message: '商户不存在' });
+  res.json({ code: 0, message: '删除成功' });
+}
+
 module.exports = { 
-  applyMerchant, listMerchants, getMerchantDetail, 
+  applyMerchant, listMerchants, getMerchantDetail, reviewMerchant, deleteMerchant,
   addShop, getShops, deleteShop,
   addStaff, getStaffList,
   getShopTypes, addShopType

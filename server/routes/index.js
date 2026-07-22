@@ -81,4 +81,11 @@ router.get('/api/admin/distributor/:id', authRequired, adminCtrl.distributorDeta
 // 商户管理
 router.get('/api/admin/merchants', authRequired, merchantCtrl.listMerchants);
 
+// 商户详情
+router.get('/api/admin/merchants/:id', authRequired, merchantCtrl.getMerchantDetail);
+// 审核商户
+router.post('/api/admin/merchants/:id/review', authRequired, merchantCtrl.reviewMerchant);
+// 删除商户
+router.delete('/api/admin/merchants/:id', authRequired, merchantCtrl.deleteMerchant);
+
 module.exports = router;
