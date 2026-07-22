@@ -1,4 +1,5 @@
 const api = require('../../utils/api')
+const wxauth = require('../../utils/wxauth')
 
 Page({
   data: {
@@ -62,40 +63,67 @@ Page({
     } catch (err) { console.error('加载数据失败:', err) }
   },
 
-  // ── 登录 ──
-  onLogin() {
+  // ── 微信登录（按钮触发）──
+  /**
+   * 通过 button open-type="getUserInfo" 触发的登录流程：
+   * 1. e.detail.userInfo 包含头像和昵称
+   * 2. 调用 wx.login 获取 code
+   * 3. 后端用 code 换 openid，返回 JWT token
+   */
+  onWechatLogin(e) {
+    const userInfo = e.detail.userInfo || {}
+    
+    if (!userInfo.nickName) {
+      wx.showToast({ title: '授权失败，请重试', icon: 'none' })
+      return
+    }
+
     wx.showLoading({ title: '登录中...' })
+    
+    // 获取登录 code
     wx.login({
-      success: (loginRes) => {
-        const openid = loginRes.code || ('wx_' + Date.now())
-        api.login({ openid, nickname: '微信用户' }).then(res => {
-          wx.hideLoading()
-          const { token, user } = res.data
-          api.setToken(token)
-          // Save phone if available for rider login
-          if (user && user.phone) {
-            wx.setStorageSync('loginToken', user.phone)
+      success: async (loginRes) => {
+        try {
+          const res = await api.loginByCode(loginRes.code)
+          
+          if (res.code === 0) {
+            const { token, user } = res.data
+            api.setToken(token)
+            api.setUserInfo(user)
+            
+            // 合并前端授权的用户信息
+            const mergedUser = {
+              ...user,
+              nickname: userInfo.nickName || user.nickname || '微信用户',
+              avatar: userInfo.avatarUrl || user.avatar || ''
+            }
+            
+            api.setUserInfo(mergedUser)
+            
+            this.setData({ 
+              isLoggedIn: true,
+              userInfo: mergedUser,
+              balance: mergedUser.balance || 0,
+              totalOrders: mergedUser.total_orders || 0,
+              couponCount: mergedUser.coupon_count || 0
+            })
+            
+            setTimeout(() => this.loadData(), 800)
+            wx.hideLoading()
+            wx.showToast({ title: '登录成功' })
+          } else {
+            wx.hideLoading()
+            wx.showToast({ title: res.message || '登录失败', icon: 'none' })
           }
-          api.setUserInfo(user)
-          this.setData({
-            userInfo: { nickname: user.nickname || '微信用户', avatar: user.avatar || '' },
-            isLoggedIn: true
-          })
-          setTimeout(() => this.loadData(), 800)
-        }).catch(err => {
+        } catch (err) {
           wx.hideLoading()
-          console.error('登录失败:', err)
-        })
+          console.error('微信登录失败:', err)
+          wx.showToast({ title: '登录失败', icon: 'none' })
+        }
       },
       fail: () => {
-        api.login({ openid: 'wx_' + Date.now(), nickname: '微信用户' }).then(res => {
-          api.setToken(res.data.token)
-          this.setData({
-            userInfo: { nickname: res.data.user.nickname, avatar: '' },
-            isLoggedIn: true
-          })
-          setTimeout(() => this.loadData(), 800)
-        }).catch(err => { console.error('登录失败:', err) })
+        wx.hideLoading()
+        wx.showToast({ title: '获取登录凭证失败', icon: 'none' })
       }
     })
   },
@@ -137,6 +165,7 @@ Page({
   goWallet()     { wx.showToast({ title: '钱包开发中', icon: 'none' }) },
   goHelp()       { wx.showToast({ title: '帮助中心开发中', icon: 'none' }) },
   goContact()    { wx.makePhoneCall({ phoneNumber: '400-123-4567' }) },
+  goDistInfo()   { wx.navigateTo({ url: '/pages/dist/detail/detail' }) },
   goSettings()   { wx.showToast({ title: '设置开发中', icon: 'none' }) },
 
   // 骑手端导航

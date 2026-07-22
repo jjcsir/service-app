@@ -13,6 +13,7 @@ const adminCtrl = require('../controllers/adminController');
 
 // ==================== 用户端接口 ====================
 router.post('/api/auth/login', userCtrl.login);
+router.post('/api/auth/loginbycode', userCtrl.loginByCode);   // 微信小程序 code 登录
 router.get('/api/users/me', authRequired, userCtrl.getProfile);
 router.put('/api/users/me', authRequired, userCtrl.updateProfile);
 router.get('/api/users/me/wallet', authRequired, userCtrl.getWallet);

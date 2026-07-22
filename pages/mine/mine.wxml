@@ -12,11 +12,13 @@
         <text class="nickname">{{isLoggedIn ? userInfo.nickname : '未登录'}}</text>
         <text class="subtitle" wx:if="{{isLoggedIn}}">余额 ¥{{balance}}</text>
         <text class="subtitle" wx:else>登录后查看订单、优惠</text>
-      </text>
       </view>
-      
-      <button wx:if="{{!isLoggedIn}}" class="login-btn" size="mini" bindtap="onLogin">登录 / 注册</button>
     </view>
+    
+    <!-- 未登录时显示微信登录按钮 -->
+    <button wx:if="{{!isLoggedIn}}" class="login-btn" open-type="getUserInfo" bindgetuserinfo="onWechatLogin">
+      微信登录
+    </button>
   </view>
 
   <!-- 骑手入口按钮（已登录可见） -->
@@ -97,6 +99,11 @@
         <view class="menu-item" bindtap="goContact">
           <text class="menu-icon">📞</text>
           <text class="menu-text">联系客服</text>
+          <text class="menu-arrow">›</text>
+        </view>
+        <view class="menu-item" bindtap="goDistInfo">
+          <text class="menu-icon">💰</text>
+          <text class="menu-text">分销中心</text>
           <text class="menu-arrow">›</text>
         </view>
       </view>

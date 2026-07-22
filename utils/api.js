@@ -56,6 +56,7 @@ module.exports = {
 
   // ========== 认证 ==========
   login: (data) => request('/api/auth/login', 'POST', data),
+  loginByCode: (code) => request('/api/auth/loginbycode', 'POST', { code }),
 
   // ========== 用户 ==========
   getProfile: () => request('/api/users/me', 'GET', {}, true),
@@ -96,4 +97,13 @@ module.exports = {
 
   // ========== 支付 ==========
   getPaymentStatus: (orderNo) => request(`/api/payments?order_no=${orderNo}`, 'GET'),
+
+  // ========== 分销代理体系 ==========
+  inviteFriend: (userInfo) => request('/api/users/me/invite', 'POST', userInfo, true),
+  getMyDistInfo: () => request('/api/users/me/distinfo', 'GET', {}, true),
+  getCommissionList: (page = 1, perPage = 20) =>
+    request(`/api/users/me/commissions?page=${page}&perPage=${perPage}`, 'GET', {}, true),
+  withdrawApply: (amount) => request('/api/users/me/withdraw', 'POST', { amount }, true),
+  getWithdrawList: (page = 1, perPage = 20) =>
+    request(`/api/users/me/withdrawals?page=${page}&perPage=${perPage}`, 'GET', {}, true),
 }

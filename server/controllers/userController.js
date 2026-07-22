@@ -17,6 +17,47 @@ function login(req, res) {
   res.json({ code: 0, data: { token, ...user, distributor: dists[0] || null } });
 }
 
+/**
+ * 微信小程序 code 登录（UnionID 方案）
+ * POST /api/auth/loginbycode
+ * 
+ * 流程：小程序 wx.login → 拿到 code → 前端传给后端
+ *       后端用 code 调微信 code2Session API → 换取 openid/unionid
+ *       然后按 openid 查库或新建用户，返回 JWT token
+ */
+async function loginByCode(req, res) {
+  const { code, nickname, avatar, gender } = req.body || {};
+
+  if (!code) {
+    return res.json({ code: 400, message: '缺少登录 code' });
+  }
+
+  // ── Step 1: 用 code 向微信服务器换 openid ──
+  // 正式环境需要调用微信 API：
+  //   GET https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=CODE&grant_type=authorization_code
+  // 当前无小程序 AppID/Secret，先用 code 作为 openid 模拟
+  const openid = 'wx_' + code;  // 简化模拟
+
+  // ── Step 2: 查询或创建用户 ──
+  let user = ds.getAll('users', { where: { openid } })[0];
+  if (!user) {
+    const finalNickname = nickname || '微信用户';
+    const finalAvatar = avatar || '';
+    user = ds.insert('users', {
+      openid,
+      nickname: finalNickname,
+      avatar: finalAvatar,
+      gender: gender || 0,
+      referral_code: 'U' + Date.now().toString(36).toUpperCase(),
+    });
+  }
+
+  // ── Step 3: 生成 token 并返回 ──
+  const token = generateToken({ userId: user.id, role: 'user' });
+  const dists = ds.getAll('distributors', { where: { user_id: user.id } });
+  res.json({ code: 0, data: { token, ...user, distributor: dists[0] || null } });
+}
+
 function getProfile(req, res) {
   const user = ds.getByField('users', 'id', req.user.userId);
   if (!user) return res.json({ code: 404, message: '用户不存在' });
@@ -106,4 +147,4 @@ function claimCoupon(req, res) {
   res.json({ code: 0, message: '领取成功', data: { ...coupon, typeLabel: coupon.type === 'cash' ? '现金券' : '折扣券' } });
 }
 
-module.exports = { login, getProfile, updateProfile, getWallet, topup, getCoupons, claimCoupon };
+module.exports = { login, loginByCode, getProfile, updateProfile, getWallet, topup, getCoupons, claimCoupon };

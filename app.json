@@ -8,7 +8,9 @@
     "pages/rider/grab/grab",
     "pages/rider/orders/orders",
     "pages/coupon/coupon",
-    "pages/wallet/wallet"
+    "pages/wallet/wallet",
+    "pages/dist/detail/detail",
+    "pages/dist/withdraw/withdraw"
   ],
   "window": {
     "navigationBarBackgroundColor": "#FF6B35",
@@ -23,9 +25,18 @@
     "backgroundColor": "#FFFFFF",
     "borderStyle": "black",
     "list": [
-      { "pagePath": "pages/index/index", "text": "首页" },
-      { "pagePath": "pages/order/order", "text": "订单" },
-      { "pagePath": "pages/mine/mine", "text": "我的" }
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/order/order",
+        "text": "订单"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的"
+      }
     ]
   },
   "sitemapLocation": "sitemap.json"
