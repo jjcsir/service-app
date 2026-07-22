@@ -10,6 +10,8 @@
     "pages/rider/orders/orders",
     "pages/coupon/coupon",
     "pages/merchant/shops/shops",
+    "pages/merchant/staff/staff",
+    "pages/merchant/finance/finance",
     "pages/wallet/wallet",
     "pages/dist/detail/detail",
     "pages/dist/withdraw/withdraw"

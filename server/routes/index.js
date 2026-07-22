@@ -39,6 +39,10 @@ router.get('/api/merchants/shops', merchantCtrl.getShops);
 router.delete('/api/merchants/shops/:id', merchantCtrl.deleteShop);
 router.post('/api/merchants/staff', authRequired, merchantCtrl.addStaff);
 router.get('/api/merchants/staff', merchantCtrl.getStaffList);
+router.get('/api/merchants/finance', authRequired, merchantCtrl.getMerchantFinance);
+router.put('/api/merchants/shops/:id', authRequired, merchantCtrl.updateShop);
+router.post('/api/merchants/staff/:id', authRequired, merchantCtrl.updateStaff);
+router.delete('/api/merchants/staff/:id', authRequired, merchantCtrl.deleteStaff);
 
 // 店铺类型
 router.get('/api/shop-types', merchantCtrl.getShopTypes);

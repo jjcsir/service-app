@@ -129,9 +129,53 @@ function deleteMerchant(req, res) {
   res.json({ code: 0, message: '删除成功' });
 }
 
+
+// 更新店铺
+function updateShop(req, res) {
+  const shop = updateById('shops', parseInt(req.params.id), req.body || {});
+  if (!shop) return res.json({ code: 404, message: '店铺不存在' });
+  res.json({ code: 0, data: shop, message: '更新成功' });
+}
+
+// 更新店员
+function updateStaff(req, res) {
+  const staff = updateById('staff', parseInt(req.params.id), req.body || {});
+  if (!staff) return res.json({ code: 404, message: '店员不存在' });
+  res.json({ code: 0, data: staff, message: '更新成功' });
+}
+
+// 删除店员（软删除）
+function deleteStaff(req, res) {
+  const staff = updateById('staff', parseInt(req.params.id), { deleted: 1 });
+  if (!staff) return res.json({ code: 404, message: '店员不存在' });
+  res.json({ code: 0, message: '删除成功' });
+}
+
+// 商户财务数据
+function getMerchantFinance(req, res) {
+  const merchantId = parseInt(req.query.merchant_id);
+  if (!merchantId) return res.json({ code: 400, message: '缺少商户ID' });
+  
+  const orders = getAll('orders', {}).filter(o => o.merchant_id === merchantId);
+  const totalIncome = orders.reduce((sum, o) => sum + parseFloat(o.actual_pay || 0), 0);
+  const pendingOrders = orders.filter(o => o.status < 3);
+  const pendingAmount = pendingOrders.reduce((sum, o) => sum + parseFloat(o.actual_pay || 0), 0);
+  
+  res.json({ 
+    code: 0, 
+    data: { 
+      balance: totalIncome - pendingAmount, 
+      total_income: totalIncome, 
+      pending: pendingAmount, 
+      transactions: [] 
+    } 
+  });
+}
+
 module.exports = { 
   applyMerchant, listMerchants, getMerchantDetail, reviewMerchant, deleteMerchant,
-  addShop, getShops, deleteShop,
-  addStaff, getStaffList,
-  getShopTypes, addShopType
+  addShop, getShops, deleteShop, updateShop,
+  addStaff, getStaffList, updateStaff, deleteStaff,
+  getShopTypes, addShopType,
+  getMerchantFinance
 };

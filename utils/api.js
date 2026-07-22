@@ -119,4 +119,8 @@ module.exports = {
   getStaffList: (merchantId) => request('/api/merchants/staff?merchant_id=' + merchantId, 'GET'),
   getShopTypes: () => request('/api/shop-types', 'GET'),
   addShopType: (data) => request('/api/shop-types', 'POST', data, true),
+
+  updateStaff: (id, data) => request('/api/merchants/staff/' + id, 'POST', data, true),
+  deleteStaff: (id) => request('/api/merchants/staff/' + id, 'DELETE', {}, true),
+  getMerchantFinance: () => request('/api/merchants/finance?merchant_id=' + (wx.getStorageSync('merchantId') || ''), 'GET', {}, true),
 }
