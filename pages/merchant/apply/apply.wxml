@@ -1,0 +1,88 @@
+<!-- 企业商户入驻页面 -->
+<view class="page-merchant">
+  <view class="banner-card gradient-primary">
+    <text class="banner-title">🏢 企业商户入驻</text>
+    <text class="banner-desc">成为我们的合作商户，获取精准流量支持</text>
+  </view>
+
+  <form bindsubmit="onSubmit">
+    <!-- 基本信息 -->
+    <view class="card">
+      <view class="card-header">
+        <text class="card-title">基本资料</text>
+      </view>
+      
+      <view class="form-group">
+        <text class="label required">商户名称 *</text>
+        <input name="name" placeholder="请输入您的门店/公司名称" value="{{formData.name}}" bindinput="onInput" />
+      </view>
+      
+      <view class="form-group">
+        <text class="label required">联系人 *</text>
+        <input name="contact" placeholder="请输入负责人姓名" value="{{formData.contact}}" bindinput="onInput" />
+      </view>
+      
+      <view class="form-group">
+        <text class="label required">联系电话 *</text>
+        <input name="phone" type="number" placeholder="请输入手机号码" maxlength="11" value="{{formData.phone}}" bindinput="onInput" />
+      </view>
+      
+      <view class="form-group">
+        <text class="label required">经营地址 *</text>
+        <input name="address" placeholder="请输入详细地址" value="{{formData.address}}" bindinput="onInput" />
+      </view>
+
+      <view class="form-group">
+        <text class="label">商户Logo</text>
+        <view class="upload-area" bindtap="chooseLogo">
+          <image wx:if="{{formData.logo}}" src="{{formData.logo}}" mode="aspectFill" class="logo-preview"></image>
+          <text wx:else class="upload-placeholder">+ 上传Logo</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 服务类型选择 -->
+    <view class="card">
+      <view class="card-header">
+        <text class="card-title">可选服务项目</text>
+      </view>
+      <view class="service-tags">
+        <view class="tag {{serviceTags[0]?'active':''}}" bindtap="toggleService" data-id="1">家政保洁</view>
+        <view class="tag {{serviceTags[1]?'active':''}}" bindtap="toggleService" data-id="2">家电维修</view>
+        <view class="tag {{serviceTags[2]?'active':''}}" bindtap="toggleService" data-id="3">管道疏通</view>
+        <view class="tag {{serviceTags[3]?'active':''}}" bindtap="toggleService" data-id="4">搬家服务</view>
+        <view class="tag {{serviceTags[4]?'active':''}}" bindtap="toggleService" data-id="5">美甲美睫</view>
+        <view class="tag {{serviceTags[5]?'active':''}}" bindtap="toggleService" data-id="6">空调清洗</view>
+        <view class="tag {{serviceTags[6]?'active':''}}" bindtap="toggleService" data-id="7">甲醛治理</view>
+        <view class="tag {{serviceTags[7]?'active':''}}" bindtap="toggleService" data-id="8">开锁换锁</view>
+      </view>
+    </view>
+
+    <!-- 品牌介绍 -->
+    <view class="card">
+      <view class="card-header">
+        <text class="card-title">品牌介绍（选填）</text>
+      </view>
+      <textarea name="description" placeholder="简单介绍一下您的品牌和服务特色..." 
+        value="{{formData.description}}" bindinput="onDescInput" maxlength="500" class="textarea" />
+    </view>
+
+    <!-- 协议 -->
+    <view class="agreement">
+      <checkbox-group bindchange="onAgreeChange">
+        <label class="agreement-label">
+          <checkbox value="agree" checked="{{isAgreed}}" />
+          <text>我已阅读并同意</text>
+          <text class="link" bindtap="showAgreement">《商户合作协议》</text>
+        </label>
+      </checkbox-group>
+    </view>
+
+    <!-- 提交按钮 -->
+    <button formType="submit" class="btn-primary btn-full submit-btn" disabled="{{loading || !isAgreed}}">
+      {{loading ? '提交中...' : '提交入驻申请'}}
+    </button>
+    
+    <view class="hint-text">提交后我们将在1-3个工作日内完成审核，届时会有专人联系您</view>
+  </form>
+</view>

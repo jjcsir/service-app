@@ -91,7 +91,8 @@
     <!-- 顾客端菜单 -->
     <block wx:if="{{currentMode === 'user'}}">
       <view class="menu-group card">
-        <view class="menu-item" bindtap="goHelp">
+        <view class="menu-item" bindtap="goMerchant"><text class="menu-icon">uD83CuDFE2</text><text class="menu-text">商户入驻</text><text class="menu-arrow">u203A</text></view>
+      <view class="menu-item" bindtap="goHelp">
           <text class="menu-icon">❓</text>
           <text class="menu-text">帮助中心</text>
           <text class="menu-arrow">›</text>

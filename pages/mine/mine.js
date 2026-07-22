@@ -164,6 +164,7 @@ Page({
   goCoupon()     { wx.showToast({ title: '优惠券开发中', icon: 'none' }) },
   goWallet()     { wx.showToast({ title: '钱包开发中', icon: 'none' }) },
   goHelp()       { wx.showToast({ title: '帮助中心开发中', icon: 'none' }) },
+  goMerchant() { wx.navigateTo({ url: '/pages/merchant/apply/apply' }) },
   goContact()    { wx.makePhoneCall({ phoneNumber: '400-123-4567' }) },
   goDistInfo()   { wx.navigateTo({ url: '/pages/dist/detail/detail' }) },
   goSettings()   { wx.showToast({ title: '设置开发中', icon: 'none' }) },

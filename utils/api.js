@@ -27,9 +27,7 @@ function request(url, method = 'GET', data = {}, needAuth = false) {
           removeToken()
           removeUserInfo()
           wx.showToast({ title: '请重新登录', icon: 'none' })
-          setTimeout(() => {
-            wx.reLaunch({ url: '/pages/mine/mine' })
-          }, 1500)
+          setTimeout(() => { wx.reLaunch({ url: '/pages/mine/mine' }) }, 1500)
           reject(new Error('未登录'))
           return
         }
@@ -49,8 +47,7 @@ function request(url, method = 'GET', data = {}, needAuth = false) {
 }
 
 module.exports = {
-  BASE_URL,
-  getToken, setToken, removeToken,
+  BASE_URL, getToken, setToken, removeToken,
   getUserInfo, setUserInfo, removeUserInfo,
   request,
 
@@ -96,7 +93,7 @@ module.exports = {
   riderProfile: () => request('/api/rider/me', 'GET', {}, true),
 
   // ========== 支付 ==========
-  getPaymentStatus: (orderNo) => request(`/api/payments?order_no=${orderNo}`, 'GET'),
+  getPaymentStatus: (orderNo) => request('/api/payments?order_no=' + orderNo, 'GET'),
 
   // ========== 分销代理体系 ==========
   inviteFriend: (userInfo) => request('/api/users/me/invite', 'POST', userInfo, true),
@@ -106,4 +103,16 @@ module.exports = {
   withdrawApply: (amount) => request('/api/users/me/withdraw', 'POST', { amount }, true),
   getWithdrawList: (page = 1, perPage = 20) =>
     request(`/api/users/me/withdrawals?page=${page}&perPage=${perPage}`, 'GET', {}, true),
+
+  // ========== 企业商户 ==========
+  applyMerchant: (data) => request('/api/merchants/apply', 'POST', data),
+  getMyMerchants: () => request('/api/merchants/my', 'GET', {}, true),
+  getMerchantDetail: (id) => request('/api/merchants/' + id, 'GET'),
+  addShop: (data) => request('/api/merchants/shops', 'POST', data, true),
+  getShops: (merchantId) => request('/api/merchants/shops?merchant_id=' + merchantId, 'GET'),
+  deleteShop: (id) => request('/api/merchants/shops/' + id, 'DELETE', {}, true),
+  addStaff: (data) => request('/api/merchants/staff', 'POST', data, true),
+  getStaffList: (merchantId) => request('/api/merchants/staff?merchant_id=' + merchantId, 'GET'),
+  getShopTypes: () => request('/api/shop-types', 'GET'),
+  addShopType: (data) => request('/api/shop-types', 'POST', data, true),
 }

@@ -10,10 +10,11 @@ const orderCtrl = require('../controllers/orderController');
 const serviceCtrl = require('../controllers/serviceController');
 const dispatchCtrl = require('../controllers/dispatchController');
 const adminCtrl = require('../controllers/adminController');
+const merchantCtrl = require('../controllers/merchantController');
 
 // ==================== 用户端接口 ====================
 router.post('/api/auth/login', userCtrl.login);
-router.post('/api/auth/loginbycode', userCtrl.loginByCode);   // 微信小程序 code 登录
+router.post('/api/auth/loginbycode', userCtrl.loginByCode);
 router.get('/api/users/me', authRequired, userCtrl.getProfile);
 router.put('/api/users/me', authRequired, userCtrl.updateProfile);
 router.get('/api/users/me/wallet', authRequired, userCtrl.getWallet);
@@ -28,6 +29,20 @@ router.post('/api/orders', authRequired, orderCtrl.createOrder);
 router.get('/api/orders', authRequired, orderCtrl.listOrders);
 router.get('/api/orders/:id', authRequired, orderCtrl.getOrderDetail);
 router.delete('/api/orders/:id', authRequired, orderCtrl.cancelOrder);
+
+// 商户入驻（不需要登录）
+router.post('/api/merchants/apply', merchantCtrl.applyMerchant);
+router.get('/api/merchants/my', authRequired, merchantCtrl.listMerchants);
+router.get('/api/merchants/:id', merchantCtrl.getMerchantDetail);
+router.post('/api/merchants/shops', authRequired, merchantCtrl.addShop);
+router.get('/api/merchants/shops', merchantCtrl.getShops);
+router.delete('/api/merchants/shops/:id', merchantCtrl.deleteShop);
+router.post('/api/merchants/staff', authRequired, merchantCtrl.addStaff);
+router.get('/api/merchants/staff', merchantCtrl.getStaffList);
+
+// 店铺类型
+router.get('/api/shop-types', merchantCtrl.getShopTypes);
+router.post('/api/shop-types', authRequired, merchantCtrl.addShopType);
 
 // ==================== 骑手端接口 ====================
 router.post('/api/rider/register', riderCtrl.register);
@@ -57,21 +72,13 @@ router.get('/api/admin/riders', authRequired, adminCtrl.riderList);
 router.post('/api/admin/riders/certify', authRequired, adminCtrl.certifyRider);
 router.get('/api/admin/services', authRequired, adminCtrl.serviceManagement);
 router.get('/api/admin/users', authRequired, adminCtrl.userList);
-// 优惠券管理
 router.get('/api/admin/coupons', authRequired, adminCtrl.couponList);
 router.post('/api/admin/coupon', authRequired, adminCtrl.couponAdd);
 router.put('/api/admin/coupon/:id', authRequired, adminCtrl.couponUpdate);
 router.delete('/api/admin/coupon/:id', authRequired, adminCtrl.couponDelete);
-// 分销管理
 router.get('/api/admin/distributors', authRequired, adminCtrl.distributorList);
 router.get('/api/admin/distributor/:id', authRequired, adminCtrl.distributorDetail);
-
-// ==================== 管理统计 (兼容旧接口) ====================
-router.get('/api/admin/stats', authRequired, (req, res) => {
-  const totalOrders = getAll('orders').length;
-  const totalUsers = getAll('users').length;
-  const totalRiders = getAll('riders').length;
-  res.json({ code: 0, data: { totalOrders, totalUsers, totalRiders } });
-});
+// 商户管理
+router.get('/api/admin/merchants', authRequired, merchantCtrl.listMerchants);
 
 module.exports = router;

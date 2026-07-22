@@ -4,6 +4,7 @@
     "pages/book/book",
     "pages/order/order",
     "pages/mine/mine",
+    "pages/merchant/apply/apply",
     "pages/rider/home/home",
     "pages/rider/grab/grab",
     "pages/rider/orders/orders",
