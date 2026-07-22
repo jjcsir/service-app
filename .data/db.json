@@ -354,6 +354,15 @@
       "created_at": "2026-07-22",
       "updated_at": "2026-07-22",
       "total_orders": 1
+    },
+    {
+      "id": 2,
+      "openid": "v2_test",
+      "nickname": "v2测试",
+      "avatar": "",
+      "referral_code": "UMRWIOC91",
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
     }
   ],
   "riders": [],
@@ -375,7 +384,11 @@
       "remark": "",
       "status": 0,
       "created_at": "2026-07-22",
-      "updated_at": "2026-07-22"
+      "updated_at": "2026-07-22",
+      "service_name": "深度保洁",
+      "category_name": "家政保洁",
+      "user_nickname": "测试用户",
+      "user_phone": ""
     }
   ],
   "payments": [],
