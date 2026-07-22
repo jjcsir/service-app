@@ -1,0 +1,37 @@
+<view class="page-finance">
+  <view class="balance-card gradient-primary">
+    <text class="balance-label">可提现余额</text>
+    <text class="balance-amount">¥{{balance}}</text>
+    <button class="withdraw-btn" bindtap="goWithdraw">立即提现</button>
+  </view>
+  
+  <view class="summary-grid card">
+    <view class="summary-item">
+      <text class="value">{{totalIncome}}</text>
+      <text class="label">累计收入</text>
+    </view>
+    <view class="summary-item">
+      <text class="value">{{withdrawnAmount}}</text>
+      <text class="label">已提现</text>
+    </view>
+    <view class="summary-item">
+      <text class="value">{{pendingAmount}}</text>
+      <text class="label">待结算</text>
+    </view>
+  </view>
+  
+  <view class="tabs">
+    <view class="tab {{activeTab===0?'active':''}}" bindtap="switchTab" data-tab="0">收入明细</view>
+    <view class="tab {{activeTab===1?'active':''}}" bindtap="switchTab" data-tab="1">提现记录</view>
+  </view>
+  
+  <view class="transaction-list card">
+    <view class="trans-item" wx:for="{{transactions}}" wx:key="id">
+      <view class="trans-left">
+        <text class="trans-desc">{{item.description || item.type}}</text>
+        <text class="trans-time">{{item.created_at}}</text>
+      </view>
+      <text class="trans-amount {{item.amount > 0 ? 'income' : 'expense'}}">{{item.amount > 0 ? '+' : ''}}¥{{Math.abs(item.amount).toFixed(2)}}</text>
+    </view>
+  </view>
+</view>
