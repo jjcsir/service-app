@@ -20,29 +20,51 @@ Page({
       wx.showToast({ title: '请先登录', icon: 'none' })
       return
     }
-    // TODO: 调用 rider grab-pool API
-    // 模拟数据
-    this.setData({ 
-      orders: [
-        { order_no: 'SO001', service_name: '深度保洁', total_amount: 199, start_address: '朝阳区建国路88号', created_at: new Date().toLocaleString(), grabbed: false },
-        { order_no: 'SO002', service_name: '空调清洗', total_amount: 88, start_address: '海淀区中关村大街1号', created_at: new Date(Date.now()-60000).toLocaleString(), grabbed: false },
-        { order_no: 'SO003', service_name: '管道疏通', total_amount: 150, start_address: '西城区金融街10号', created_at: new Date(Date.now()-120000).toLocaleString(), grabbed: false }
-      ]
-    })
+    this.setData({ loading: true })
+    try {
+      const res = await api.grabPool()
+      if (res && res.data && res.data.orders) {
+        // Convert server order objects to front-end format with grabbed flag
+        const orders = (res.data.orders || []).map(o => ({
+          id: o.id,
+          order_no: o.order_no || '',
+          service_name: o.service_name || '',
+          total_amount: o.paid_amount || o.total_amount || 0,
+          start_address: o.start_address || '',
+          created_at: o.created_at ? o.created_at.split('T')[0] + ' ' + (o.created_at.split('T')[1] || '') : '',
+          grabbed: !!o.rider_id
+        }))
+        this.setData({ orders, loading: false })
+      }
+    } catch (err) {
+      console.error('加载抢单池失败:', err)
+      this.setData({ loading: false })
+    }
   },
 
   refresh() { this.loadPool() },
 
   async onGrab(e) {
     const orderNo = e.currentTarget.dataset.id
-    // TODO: 调用 grab-order API
-    
-    const orders = this.data.orders.map(o => 
-      o.order_no === orderNo ? { ...o, grabbed: true } : o
-    )
-    this.setData({ orders })
-    
-    wx.showToast({ title: '抢单成功！', icon: 'success' })
+    if (!orderNo) return
+
+    const order = this.data.orders.find(o => o.order_no === orderNo)
+    if (order && order.grabbed) {
+      wx.showToast({ title: '该订单已被抢', icon: 'none' })
+      return
+    }
+
+    try {
+      wx.showLoading({ title: '抢单中...' })
+      await api.grabOrder({ order_no: orderNo })
+      wx.hideLoading()
+      wx.showToast({ title: '抢单成功！', icon: 'success' })
+      // Refresh the pool to update list
+      this.loadPool()
+    } catch (err) {
+      wx.hideLoading()
+      console.error('抢单失败:', err)
+    }
   },
 
   getItemEmoji(name) { return EMOJI_MAP[name] || '🔧' }

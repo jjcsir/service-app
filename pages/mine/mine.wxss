@@ -1,5 +1,5 @@
 /* ============================================
-   个人中心 ── 完整UI设计（含骑手模式切换）
+   个人中心 ── 完整UI设计（含骑手入口）
    ============================================ */
 
 .page-mine { padding-bottom: 100rpx; }
@@ -21,7 +21,7 @@
 }
 
 .header-content {
-  display: flex; align-items: center; position: relative; z-index: 1;
+  display: flex; align-items: center; position: relative; z-index: 1; gap: 12rpx;
 }
 
 .avatar {
@@ -48,6 +48,20 @@
   font-size: 24rpx !important;
   padding: 0 28rpx !important;
   height: 56rpx !important; line-height: 56rpx !important;
+}
+
+/* ── 申请成为代理按钮 ── */
+.apply-rider-btn {
+  background: #fff !important;
+  color: #FF6B35 !important;
+  border: none !important;
+  border-radius: 50rpx !important;
+  font-size: 24rpx !important;
+  padding: 0 24rpx !important;
+  height: 56rpx !important;
+  line-height: 56rpx !important;
+  font-weight: 600;
+  box-shadow: 0 4rpx 12rpx rgba(255,107,53,0.2);
 }
 
 /* ── 模式切换 ── */
@@ -101,3 +115,42 @@
 .menu-text { flex: 1; font-size: 28rpx; color: var(--text-primary); }
 .menu-arrow { font-size: 32rpx; color: #ddd; }
 .logout .menu-text { color: var(--danger); }
+
+/* 骑手入口 */
+.rider-entry {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 30rpx;
+  margin-bottom: 20rpx;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16rpx;
+  cursor: pointer;
+}
+
+.rider-icon {
+  font-size: 48rpx;
+  margin-right: 20rpx;
+}
+
+.rider-info {
+  flex: 1;
+}
+
+.rider-title {
+  display: block;
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #fff;
+}
+
+.rider-desc {
+  display: block;
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 4rpx;
+}
+
+.rider-arrow {
+  font-size: 32rpx;
+  color: rgba(255, 255, 255, 0.7);
+}

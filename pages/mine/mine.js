@@ -72,6 +72,10 @@ Page({
           wx.hideLoading()
           const { token, user } = res.data
           api.setToken(token)
+          // Save phone if available for rider login
+          if (user && user.phone) {
+            wx.setStorageSync('loginToken', user.phone)
+          }
           api.setUserInfo(user)
           this.setData({
             userInfo: { nickname: user.nickname || '微信用户', avatar: user.avatar || '' },
@@ -114,6 +118,11 @@ Page({
     const newMode = this.data.currentMode === 'user' ? 'rider' : 'user'
     this.setData({ currentMode: newMode })
     wx.showToast({ title: `已切换至${newMode === 'user' ? '顾客端' : '骑手端'}`, icon: 'none' })
+  },
+
+  // ── 骑手入口 ──
+  goRiderRegister() {
+    wx.navigateTo({ url: '/pages/rider/rider_register/rider_register' })
   },
 
   goOrders(e) {

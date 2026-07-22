@@ -1,0 +1,69 @@
+.page-coupon { padding: 24rpx; padding-bottom: 60rpx; }
+
+/* ── Tab 切换 ── */
+.coupon-tabs {
+  display: flex; background: #fff; border-radius: 16rpx; padding: 8rpx; margin-bottom: 24rpx;
+}
+.tab-item {
+  flex: 1; text-align: center; padding: 16rpx 0; font-size: 26rpx; color: var(--text-secondary);
+  border-radius: 12rpx; transition: all 0.2s;
+}
+.tab-item.active {
+  background: var(--primary); color: #fff; font-weight: 600;
+}
+
+/* ── 可领优惠券卡片 ── */
+.coupon-card {
+  background: #fff; border-radius: 16rpx; padding: 24rpx; margin-bottom: 20rpx;
+  box-shadow: var(--shadow-card); position: relative; overflow: hidden;
+}
+.cc-left { display: flex; align-items: center; gap: 16rpx; }
+.cc-amount {
+  font-size: 48rpx; font-weight: bold; color: var(--primary);
+}
+.cc-name { font-size: 26rpx; color: var(--text-primary); }
+.cc-type-tag { font-size: 20rpx; padding: 2rpx 12rpx; border-radius: 8rpx; }
+.tag-cash { background: #FFF7E6; color: #D48806; }
+.tag-discount { background: #E6F7FF; color: #1890FF; }
+
+.cc-right { display: flex; align-items: center; justify-content: space-between; margin-top: 12rpx; }
+.cc-validity { font-size: 22rpx; color: var(--text-placeholder); }
+
+.btn-claim {
+  background: var(--primary) !important; color: #fff !important;
+  border: none !important; border-radius: 50rpx !important;
+  font-size: 24rpx !important; padding: 0 32rpx !important; height: 48rpx !important;
+}
+
+.cc-divider {
+  height: 2rpx; background: repeating-linear-gradient(90deg, transparent, transparent 8rpx, #eee 8rpx, #eee 16rpx);
+  margin: 16rpx 0;
+}
+.cc-bottom { display: flex; justify-content: space-between; align-items: center; }
+.cc-desc { font-size: 22rpx; color: var(--text-placeholder); }
+
+/* ── 我的卡券卡片 ── */
+.mc-card {
+  background: #fff; border-radius: 16rpx; padding: 24rpx; margin-bottom: 20rpx;
+  box-shadow: var(--shadow-card); opacity: 0.85;
+}
+.mc-left { display: flex; align-items: center; gap: 16rpx; }
+.mc-amount {
+  font-size: 48rpx; font-weight: bold; color: #999;
+}
+.mc-name { font-size: 26rpx; color: #666; }
+.mc-status { font-size: 20rpx; color: #999; }
+.status-unused { color: var(--primary) !important; font-weight: 500; }
+.status-used { color: #bbb !important; }
+.status-expired { color: #ccc !important; }
+
+.mc-right { margin-top: 12rpx; }
+.mc-divider {
+  height: 2rpx; background: repeating-linear-gradient(90deg, transparent, transparent 8rpx, #ddd 8rpx, #ddd 16rpx);
+  margin: 16rpx 0;
+}
+
+/* ── 空状态 ── */
+.empty-state { text-align: center; padding: 80rpx 0; }
+.empty-icon { font-size: 80rpx; display: block; }
+.empty-text { font-size: 26rpx; color: var(--text-placeholder); margin-top: 16rpx; display: block; }

@@ -1,0 +1,46 @@
+<!-- 钱包 -->
+<view class="page-wallet">
+  
+  <!-- 余额卡片 -->
+  <view class="wallet-balance card">
+    <text class="wb-label">当前余额</text>
+    <text class="wb-amount">¥{{balance}}</text>
+    <button class="btn-topup" size="mini" bindtap="{{showTopup ? 'closeTopup' : 'setData', showTopup: true}}" data-show="{{!showTopup}}">充值</button>
+  </view>
+
+  <!-- 充值弹窗 -->
+  <view class="topup-modal {{showTopup ? 'visible' : ''}}" bindtap="closeTopup">
+    <view class="topup-content" catchtap="">
+      <text class="topup-title">充值金额</text>
+      <input class="topup-input" type="digit" placeholder="输入充值金额" value="{{topupAmount}}" bindinput="onTopupAmountInput" />
+      <view class="topup-presets">
+        <view class="preset-item" bindtap="setTopupAmount" data-amount="50">¥50</view>
+        <view class="preset-item" bindtap="setTopupAmount" data-amount="100">¥100</view>
+        <view class="preset-item" bindtap="setTopupAmount" data-amount="200">¥200</view>
+        <view class="preset-item" bindtap="setTopupAmount" data-amount="500">¥500</view>
+      </view>
+      <button class="btn-confirm-topup" size="mini" bindtap="doTopup">确认充值</button>
+    </view>
+  </view>
+
+  <!-- 交易记录 -->
+  <view class="transaction-list">
+    <text class="tl-title">交易记录</text>
+    <block wx:for="{{payments}}" wx:key="id">
+      <view class="tl-item card">
+        <view class="tl-left">
+          <text class="tl-type">{{item.type === 'topup' ? '充值' : '支付'}}</text>
+          <text class="tl-date">{{item.created_at || ''}}</text>
+        </view>
+        <text class="tl-amount {{item.type === 'topup' ? 'positive' : 'negative'}}">
+          {{item.type === 'topup' ? '+' : '-'}}¥{{item.amount}}
+        </text>
+      </view>
+    </block>
+    <view class="empty-state" wx:if="{{payments.length === 0}}">
+      <text class="empty-icon">📊</text>
+      <text class="empty-text">暂无交易记录</text>
+    </view>
+  </view>
+
+</view>

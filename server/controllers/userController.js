@@ -49,4 +49,61 @@ function topup(req, res) {
   res.json({ code: 0, data: { balance: newBalance }, message: '充值成功' });
 }
 
-module.exports = { login, getProfile, updateProfile, getWallet, topup };
+// ==================== 优惠券（用户端） ====================
+
+/**
+ * 获取可领取的优惠券列表
+ * GET /api/coupons
+ */
+function getCoupons(req, res) {
+  const coupons = ds.getAll('coupons', { where: { status: 1 } });
+  for (const c of coupons) {
+    c.typeLabel = c.type === 'cash' ? '现金券' : c.type === 'discount' ? '折扣券' : '普通券';
+    c.label = c.type === 'cash' ? `¥${c.value}` : `${c.value}折`;
+    c.validity = c.valid_days ? `领取后${c.valid_days}天内有效` : '';
+  }
+  res.json({ code: 0, data: coupons });
+}
+
+/**
+ * 领取优惠券
+ * POST /api/coupons/claim
+ */
+function claimCoupon(req, res) {
+  const { coupon_id } = req.body || {};
+  const userId = req.user.userId;
+  
+  const coupons = ds.getAll('coupons', {});
+  const coupon = coupons.find(c => c.id === parseInt(coupon_id));
+  if (!coupon) {
+    return res.json({ code: 404, message: '优惠券不存在' });
+  }
+  
+  // 检查是否已领取
+  const userCoupons = ds.getAll('user_coupons', { where: { user_id: userId, coupon_id } });
+  if (userCoupons.length > 0) {
+    return res.json({ code: 400, message: '您已经领取过该优惠券了' });
+  }
+  
+  // 记录领取
+  ds.insert('user_coupons', {
+    user_id: userId,
+    coupon_id: coupon.id,
+    status: 0,  // 0=未使用, 1=已使用, 2=已过期
+    claimed_at: new Date().toISOString().split('T')[0]
+  });
+  
+  // 更新用户优惠券计数
+  ds.updateById('users', userId, { 
+    coupon_count: (parseInt(user.coupon_count || 0)) + 1 
+  });
+  
+  // 更新优惠券领取计数
+  ds.updateById('coupons', coupon.id, {
+    claimed_count: (parseInt(coupon.claimed_count || 0)) + 1
+  });
+  
+  res.json({ code: 0, message: '领取成功', data: { ...coupon, typeLabel: coupon.type === 'cash' ? '现金券' : '折扣券' } });
+}
+
+module.exports = { login, getProfile, updateProfile, getWallet, topup, getCoupons, claimCoupon };

@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>上门好服务 - UI预览</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  :root {
+    --primary: #FF6B35;
+    --primary-light: #FF8F5E;
+    --secondary: #4A90D9;
+    --success: #52c41a;
+    --warning: #faad14;
+    --danger: #ff4d4f;
+    --bg: #F7F8FA;
+    --card-bg: #FFFFFF;
+    --text-primary: #1A1A1A;
+    --text-secondary: #666666;
+    --text-placeholder: #999999;
+    --border: #EEEEEE;
+    --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.06);
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-round: 50px;
+  }
+  
+  body {
+    background: #e8e8e8;
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 40px 20px;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  /* Phone mockup */
+  .phone {
+    width: 375px;
+    height: 812px;
+    background: var(--bg);
+    border-radius: 40px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2), 0 0 0 2px #333;
+    position: relative;
+  }
+  
+  .phone-notch {
+    height: 44px;
+    background: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    position: relative;
+  }
+  
+  .phone-notch::before {
+    content: '';
+    width: 100px;
+    height: 20px;
+    background: #333;
+    border-radius: 20px;
+    position: absolute;
+    top: 8px;
+  }
+  
+  .tab-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: white;
+    display: flex;
+    border-top: 1px solid var(--border);
+    padding-bottom: 20px;
+  }
+  
+  .tab-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-size: 10px;
+    color: var(--text-placeholder);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .tab-item.active {
+    color: var(--primary);
+  }
+  
+  .tab-icon {
+    font-size: 20px;
+  }
+  
+  /* Scrollable content area */
+  .content {
+    height: calc(812px - 44px - 80px);
+    overflow-y: auto;
+    scroll-behavior: smooth;
+  }
+  
+  .content::-webkit-scrollbar { display: none; }
+  
+  /* Cards */
+  .card {
+    background: white;
+    border-radius: var(--radius-md);
+    padding: 20px;
+    margin: 12px;
+    box-shadow: var(--shadow-card);
+  }
+  
+  /* Header gradient */
+  .gradient-header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    padding: 24px 16px;
+    color: white;
+  }
+  
+  /* Search bar */
+  .search-bar {
+    background: rgba(255,255,255,0.95);
+    border-radius: var(--radius-round);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .search-bar input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 14px;
+    background: transparent;
+  }
+  
+  /* Banner */
+  .banner {
+    margin: 12px;
+    height: 140px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  
+  /* Category grid */
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    padding: 0 12px;
+  }
+  
+  .cat-item {
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  .cat-item:hover { transform: scale(1.05); }
+  
+  .cat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin: 0 auto 6px;
+    background: var(--primary-bg);
+  }
+  
+  .cat-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+  
+  /* Service card */
+  .service-row {
+    display: flex;
+    gap: 12px;
+    padding: 0 12px;
+  }
+  
+  .service-card {
+    min-width: 140px;
+    background: white;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .service-card:hover { transform: translateY(-2px); }
+  
+  .svc-thumb {
+    height: 80px;
+    background: linear-gradient(135deg, #ffecd2, #fcb69f);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+  }
+  
+  .svc-info {
+    padding: 10px;
+  }
+  
+  .svc-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+  
+  .svc-price {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--primary);
+    margin-top: 4px;
+  }
+  
+  /* Profile header */
+  .profile-header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    padding: 30px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: white;
+  }
+  
+  .avatar-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+  }
+  
+  .user-nickname {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  
+  .user-sub {
+    font-size: 12px;
+    opacity: 0.8;
+    margin-top: 2px;
+  }
+  
+  /* Stats grid */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  
+  .stat-cell {
+    text-align: center;
+    padding: 16px 0;
+    border-right: 1px solid var(--border);
+  }
+  
+  .stat-cell:last-child { border: none; }
+  
+  .stat-num {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary);
+    display: block;
+  }
+  
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-placeholder);
+    margin-top: 4px;
+    display: block;
+  }
+  
+  /* Menu items */
+  .menu-group {
+    padding: 0 12px;
+  }
+  
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+  
+  .menu-item:last-child { border: none; }
+  
+  .menu-icon { font-size: 18px; }
+  .menu-text { flex: 1; font-size: 14px; }
+  .menu-arrow { color: var(--text-placeholder); }
+  
+  /* Rider dashboard */
+  .rider-stats {
+    display: flex;
+    gap: 12px;
+    padding: 0 12px;
+  }
+  
+  .rider-stat {
+    flex: 1;
+    background: white;
+    border-radius: var(--radius-md);
+    padding: 16px;
+    text-align: center;
+    box-shadow: var(--shadow-card);
+  }
+  
+  .rider-stat .num {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary);
+    display: block;
+  }
+  
+  .rider-stat .label {
+    font-size: 11px;
+    color: var(--text-placeholder);
+    margin-top: 4px;
+    display: block;
+  }
+  
+  /* Action buttons */
+  .action-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 12px;
+  }
+  
+  .big-btn {
+    border-radius: var(--radius-md);
+    padding: 24px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .big-btn:hover { transform: scale(1.02); }
+  
+  .btn-grab {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white;
+  }
+  
+  .btn-orders {
+    background: linear-gradient(135deg, var(--secondary), #7ab8f7);
+    color: white;
+  }
+  
+  .big-btn .btn-title {
+    font-size: 16px;
+    font-weight: 600;
+    display: block;
+    margin: 8px 0 4px;
+  }
+  
+  .big-btn .btn-sub {
+    font-size: 11px;
+    opacity: 0.8;
+  }
+  
+  /* Order list */
+  .order-tabs {
+    display: flex;
+    padding: 0 12px;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .order-tab {
+    padding: 6px 14px;
+    border-radius: var(--radius-round);
+    font-size: 12px;
+    background: white;
+    cursor: pointer;
+    border: 1px solid var(--border);
+  }
+  
+  .order-tab.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+  
+  .order-card {
+    background: white;
+    border-radius: var(--radius-md);
+    padding: 16px;
+    margin: 0 12px 12px;
+    box-shadow: var(--shadow-card);
+  }
+  
+  .order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  
+  .order-status {
+    padding: 4px 12px;
+    border-radius: var(--radius-round);
+    font-size: 11px;
+    font-weight: 500;
+  }
+  
+  .status-waiting { background: #fff7e6; color: var(--warning); }
+  .status-doing { background: #e6f7ff; color: var(--secondary); }
+  .status-done { background: #f6ffed; color: var(--success); }
+  .status-cancelled { background: #fff2f0; color: var(--danger); }
+  
+  /* Toggle switch */
+  .toggle-switch {
+    width: 50px;
+    height: 28px;
+    background: #ddd;
+    border-radius: 28px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  .toggle-switch.on {
+    background: var(--success);
+  }
+  
+  .toggle-switch::after {
+    content: '';
+    width: 24px;
+    height: 24px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: all 0.3s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+  
+  .toggle-switch.on::after {
+    left: 24px;
+  }
+  
+  /* Login button */
+  .login-btn {
+    background: white;
+    color: var(--primary);
+    border: 1px solid white;
+    border-radius: var(--radius-round);
+    padding: 6px 16px;
+    font-size: 12px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  
+  /* Badge */
+  .badge {
+    background: var(--danger);
+    color: white;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: var(--radius-round);
+    margin-left: 4px;
+  }
+
+  /* Section title */
+  .section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+  }
+  
+  /* Quick menu grid */
+  .quick-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  
+  .quick-item {
+    text-align: center;
+    padding: 12px 0;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+  }
+  
+  .quick-item:hover {
+    background: var(--bg);
+  }
+  
+  .qi-icon {
+    font-size: 24px;
+    display: block;
+    margin-bottom: 6px;
+  }
+  
+  .qi-text {
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+  
+  .qi-count {
+    display: block;
+    font-size: 10px;
+    color: var(--danger);
+    margin-top: 2px;
+  }
+  
+  /* Page title inside phone */
+  .page-title {
+    padding: 16px 16px 8px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  /* Phone labels */
+  .phone-label {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 13px;
+    font-weight: 600;
+    color: #666;
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== 首页 ========== -->
+<div class="phone">
+  <div class="phone-label">📱 首页</div>
+  <div class="phone-notch">上门好服务</div>
+  <div class="content">
+    <!-- Search -->
+    <div style="padding: 12px;">
+      <div class="search-bar">
+        <span style="font-size: 16px;">🔍</span>
+        <input placeholder="搜索服务项目" disabled>
+      </div>
+    </div>
+    
+    <!-- Banner -->
+    <div class="banner" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+      🧹 深度保洁 · 限时优惠
+    </div>
+    <div class="banner" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); margin-top: 0;">
+      🔌 家电维修 · 专业团队
+    </div>
+
+    <!-- Categories -->
+    <div class="card" style="margin-top: 16px;">
+      <div class="section-title">服务分类</div>
+      <div class="category-grid">
+        <div class="cat-item"><div class="cat-icon">🏠</div><div class="cat-label">全部</div></div>
+        <div class="cat-item"><div class="cat-icon">🧹</div><div class="cat-label">家政保洁</div></div>
+        <div class="cat-item"><div class="cat-icon">🔌</div><div class="cat-label">家电维修</div></div>
+        <div class="cat-item"><div class="cat-icon">🚿</div><div class="cat-label">管道疏通</div></div>
+        <div class="cat-item"><div class="cat-icon">📦</div><div class="cat-label">搬家服务</div></div>
+        <div class="cat-item"><div class="cat-icon">💅</div><div class="cat-label">美甲美睫</div></div>
+        <div class="cat-item"><div class="cat-icon">❄️</div><div class="cat-label">空调清洗</div></div>
+        <div class="cat-item"><div class="cat-icon">🔑</div><div class="cat-label">开锁换锁</div></div>
+      </div>
+    </div>
+
+    <!-- Hot services -->
+    <div class="page-title" style="display:flex;justify-content:space-between;align-items:center;">
+      <span class="section-title" style="margin:0;">🔥 热门推荐</span>
+      <span style="font-size:11px;color:#999;">查看全部 ›</span>
+    </div>
+    <div style="display:flex;gap:10px;padding:0 12px 12px;overflow-x:auto;">
+      <div class="service-card">
+        <div class="svc-thumb" style="background:linear-gradient(135deg,#ffecd2,#fcb69f);">🧹</div>
+        <div class="svc-info">
+          <div class="svc-name">深度保洁</div>
+          <div class="svc-price">¥199</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="svc-thumb" style="background:linear-gradient(135deg,#a1c4fd,#c2e9fb);">🔌</div>
+        <div class="svc-info">
+          <div class="svc-name">洗衣机清洗</div>
+          <div class="svc-price">¥158</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="svc-thumb" style="background:linear-gradient(135deg,#d4fc79,#96e6a1);">🚿</div>
+        <div class="svc-info">
+          <div class="svc-name">马桶疏通</div>
+          <div class="svc-price">¥120</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="svc-thumb" style="background:linear-gradient(135deg,#fbc2eb,#a6c1ee);">💅</div>
+        <div class="svc-info">
+          <div class="svc-name">美甲彩绘</div>
+          <div class="svc-price">¥128</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- All services -->
+    <div class="card" style="margin-top: 8px;">
+      <div class="section-title">所有服务</div>
+      <div style="display:flex;gap:12px;padding:8px 0;border-bottom:1px solid #eee;">
+        <div style="width:50px;height:50px;border-radius:8px;background:linear-gradient(135deg,#ffecd2,#fcb69f);display:flex;align-items:center;justify-content:center;font-size:24px;">🧹</div>
+        <div style="flex:1;">
+          <div style="font-size:14px;font-weight:500;">日常保洁</div>
+          <div style="font-size:11px;color:#999;margin:2px 0;">保洁打扫</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+            <span style="color:#FF6B35;font-weight:600;">¥99</span>
+            <button style="background:var(--primary);color:white;border:none;border-radius:20px;padding:4px 16px;font-size:11px;cursor:pointer;">预约</button>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #eee;">
+        <div style="width:50px;height:50px;border-radius:8px;background:linear-gradient(135deg,#a1c4fd,#c2e9fb);display:flex;align-items:center;justify-content:center;font-size:24px;">🔌</div>
+        <div style="flex:1;">
+          <div style="font-size:14px;font-weight:500;">油烟机清洗</div>
+          <div style="font-size:11px;color:#999;margin:2px 0;">拆洗消毒</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+            <span style="color:#FF6B35;font-weight:600;">¥168</span>
+            <button style="background:var(--primary);color:white;border:none;border-radius:20px;padding:4px 16px;font-size:11px;cursor:pointer;">预约</button>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;padding:12px 0;">
+        <div style="width:50px;height:50px;border-radius:8px;background:linear-gradient(135deg,#fbc2eb,#a6c1ee);display:flex;align-items:center;justify-content:center;font-size:24px;">📦</div>
+        <div style="flex:1;">
+          <div style="font-size:14px;font-weight:500;">居民搬家</div>
+          <div style="font-size:11px;color:#999;margin:2px 0;">小件家具搬移</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+            <span style="color:#FF6B35;font-weight:600;">¥500</span>
+            <button style="background:var(--primary);color:white;border:none;border-radius:20px;padding:4px 16px;font-size:11px;cursor:pointer;">预约</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="height:20px;"></div>
+  </div>
+  
+  <!-- Tab Bar -->
+  <div class="tab-bar">
+    <div class="tab-item active"><span class="tab-icon">🏠</span>首页</div>
+    <div class="tab-item"><span class="tab-icon">📋</span>订单<span class="badge">3</span></div>
+    <div class="tab-item"><span class="tab-icon">👤</span>我的</div>
+  </div>
+</div>
+
+
+<!-- ========== 订单页 ========== -->
+<div class="phone">
+  <div class="phone-label">📱 订单</div>
+  <div class="phone-notch">我的订单</div>
+  <div class="content">
+    <div class="order-tabs" style="margin-top:12px;">
+      <div class="order-tab active">全部</div>
+      <div class="order-tab">待抢单</div>
+      <div class="order-tab">进行中</div>
+      <div class="order-tab">已完成</div>
+      <div class="order-tab">已取消</div>
+    </div>
+
+    <!-- Order cards -->
+    <div class="order-card">
+      <div class="order-header">
+        <div>
+          <div style="font-size:14px;font-weight:500;">🧹 深度保洁</div>
+          <div style="font-size:11px;color:#999;margin-top:2px;">朝阳区建国路88号 → ...</div>
+        </div>
+        <span class="order-status status-waiting">⏳ 待确认</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+        <div style="font-size:12px;color:#999;">2026-07-22 14:00</div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:18px;font-weight:600;color:var(--primary);">¥199</span>
+          <button style="background:#ff4d4f;color:white;border:none;border-radius:20px;padding:6px 14px;font-size:11px;cursor:pointer;">取消</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="order-card">
+      <div class="order-header">
+        <div>
+          <div style="font-size:14px;font-weight:500;">🔌 洗衣机清洗</div>
+          <div style="font-size:11px;color:#999;margin-top:2px;">海淀区中关村大街1号</div>
+        </div>
+        <span class="order-status status-doing">🚚 进行中</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+        <div style="font-size:12px;color:#999;">骑手：王师傅</div>
+        <span style="font-size:18px;font-weight:600;color:var(--primary);">¥158</span>
+      </div>
+    </div>
+
+    <div class="order-card">
+      <div class="order-header">
+        <div>
+          <div style="font-size:14px;font-weight:500;">🚿 马桶疏通</div>
+          <div style="font-size:11px;color:#999;margin-top:2px;">西城区金融街7号</div>
+        </div>
+        <span class="order-status status-done">✅ 已完成</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+        <div style="font-size:12px;color:#999;">2026-07-20 10:00</div>
+        <div style="display:flex;gap:8px;">
+          <span style="font-size:18px;font-weight:600;color:var(--primary);">¥120</span>
+          <button style="background:var(--warning);color:white;border:none;border-radius:20px;padding:6px 14px;font-size:11px;cursor:pointer;">评价</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;padding:40px 0;color:#ccc;font-size:13px;">
+      ↓ 加载更多 ↓
+    </div>
+    <div style="height:20px;"></div>
+  </div>
+  
+  <div class="tab-bar">
+    <div class="tab-item"><span class="tab-icon">🏠</span>首页</div>
+    <div class="tab-item active"><span class="tab-icon">📋</span>订单<span class="badge">3</span></div>
+    <div class="tab-item"><span class="tab-icon">👤</span>我的</div>
+  </div>
+</div>
+
+
+<!-- ========== 个人中心 ========== -->
+<div class="phone">
+  <div class="phone-label">📱 我的</div>
+  <div class="phone-notch">个人中心</div>
+  <div class="content">
+    <!-- Profile -->
+    <div class="profile-header">
+      <div class="avatar-circle">👤</div>
+      <div>
+        <div class="user-nickname">张三</div>
+        <div class="user-sub">余额 ¥128.50</div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="card" style="border-radius:0;margin:0;margin-top:-20px;position:relative;z-index:10;">
+      <div class="stats-grid">
+        <div class="stat-cell">
+          <span class="stat-num">12</span>
+          <span class="stat-label">全部订单</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-num" style="color:var(--warning);">2</span>
+          <span class="stat-label">待确认</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-num" style="color:var(--secondary);">1</span>
+          <span class="stat-label">进行中</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-num" style="color:var(--success);">9</span>
+          <span class="stat-label">已完成</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mode switch -->
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div style="font-size:12px;color:#999;">当前模式</div>
+        <div style="font-size:14px;font-weight:500;margin-top:2px;">🛒 顾客端</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:12px;color:#999;">骑手端</span>
+        <div class="toggle-switch" onclick="this.classList.toggle('on')"></div>
+      </div>
+    </div>
+
+    <!-- Quick assets -->
+    <div class="card">
+      <div class="section-title">我的资产</div>
+      <div class="quick-grid">
+        <div class="quick-item">
+          <span class="qi-icon">🎫</span>
+          <span class="qi-text">优惠券</span>
+          <span class="qi-count">2张可用</span>
+        </div>
+        <div class="quick-item">
+          <span class="qi-icon">📍</span>
+          <span class="qi-text">收货地址</span>
+        </div>
+        <div class="quick-item">
+          <span class="qi-icon">⭐</span>
+          <span class="qi-text">我的收藏</span>
+        </div>
+        <div class="quick-item">
+          <span class="qi-icon">💰</span>
+          <span class="qi-text">钱包</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Menus -->
+    <div class="card">
+      <div class="menu-group">
+        <div class="menu-item"><span class="menu-icon">❓</span><span class="menu-text">帮助中心</span><span class="menu-arrow">›</span></div>
+        <div class="menu-item"><span class="menu-icon">📞</span><span class="menu-text">联系客服</span><span class="menu-arrow">›</span></div>
+        <div class="menu-item"><span class="menu-icon">⚙️</span><span class="menu-text">设置</span><span class="menu-arrow">›</span></div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="tab-bar">
+    <div class="tab-item"><span class="tab-icon">🏠</span>首页</div>
+    <div class="tab-item"><span class="tab-icon">📋</span>订单<span class="badge">3</span></div>
+    <div class="tab-item active"><span class="tab-icon">👤</span>我的</div>
+  </div>
+</div>
+
+
+<!-- ========== 骑手工作台 ========== -->
+<div class="phone">
+  <div class="phone-label">📱 骑手工作台</div>
+  <div class="phone-notch" style="background:var(--secondary);">骑手工作台</div>
+  <div class="content">
+    <!-- Header -->
+    <div style="padding:16px 16px 8px;display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div style="font-size:16px;font-weight:600;">下午好，王师傅 👋</div>
+        <div style="font-size:12px;color:#999;margin-top:2px;">在线状态</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:12px;color:var(--success);font-weight:500;">在线</span>
+        <div class="toggle-switch on" onclick="this.classList.toggle('on')"></div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="rider-stats" style="margin-top:12px;">
+      <div class="rider-stat">
+        <span class="num">8</span>
+        <span class="label">今日接单</span>
+      </div>
+      <div class="rider-stat">
+        <span class="num" style="color:var(--success);">¥680</span>
+        <span class="label">本周收入</span>
+      </div>
+      <div class="rider-stat">
+        <span class="num" style="color:#faad14;">4.9</span>
+        <span class="label">评分</span>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="action-buttons">
+      <div class="big-btn btn-grab">
+        <div style="font-size:32px;">🎯</div>
+        <span class="btn-title">抢单池</span>
+        <span class="btn-sub">12个待抢订单</span>
+      </div>
+      <div class="big-btn btn-orders">
+        <div style="font-size:32px;">📋</div>
+        <span class="btn-title">我的订单</span>
+        <span class="btn-sub">3个进行中</span>
+      </div>
+    </div>
+
+    <!-- Quick -->
+    <div class="card" style="margin-top:8px;">
+      <div class="section-title">常用功能</div>
+      <div class="menu-group">
+        <div class="menu-item"><span class="menu-icon">💰</span><span class="menu-text">钱包余额</span><span class="menu-arrow">›</span></div>
+        <div class="menu-item"><span class="menu-icon">🏦</span><span class="menu-text">申请提现</span><span class="menu-arrow">›</span></div>
+        <div class="menu-item"><span class="menu-icon">🪪</span><span class="menu-text">认证管理</span><span class="menu-arrow">›</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

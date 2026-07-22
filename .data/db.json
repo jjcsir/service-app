@@ -1,0 +1,359 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "家政保洁",
+      "icon": "/images/clean.png",
+      "sort_order": -1,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 2,
+      "name": "家电维修",
+      "icon": "/images/repair.png",
+      "sort_order": -1,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 3,
+      "name": "管道疏通",
+      "icon": "/images/pipe.png",
+      "sort_order": -1,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 4,
+      "name": "搬家服务",
+      "icon": "/images/move.png",
+      "sort_order": -1,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 5,
+      "name": "美甲美睫",
+      "icon": "/images/beauty.png",
+      "sort_order": -1,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 6,
+      "name": "空调清洗",
+      "icon": "/images/ac.png",
+      "sort_order": -1,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 7,
+      "name": "甲醛治理",
+      "icon": "/images/formaldehyde.png",
+      "sort_order": -1,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 8,
+      "name": "开锁换锁",
+      "icon": "/images/lock.png",
+      "sort_order": -1,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    }
+  ],
+  "services": [
+    {
+      "id": 1,
+      "category_id": 1,
+      "name": "深度保洁",
+      "description": "全屋深度清洁",
+      "price": 199,
+      "sort_order": 1,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 2,
+      "category_id": 1,
+      "name": "日常保洁",
+      "description": "日常打扫清洁",
+      "price": 99,
+      "sort_order": 2,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 3,
+      "category_id": 1,
+      "name": "开荒保洁",
+      "description": "新房首次清洁",
+      "price": 299,
+      "sort_order": 3,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 4,
+      "category_id": 2,
+      "name": "洗衣机清洗",
+      "description": "内筒清洗消毒",
+      "price": 158,
+      "sort_order": 4,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 5,
+      "category_id": 2,
+      "name": "冰箱清洗",
+      "description": "内部深度清洁除味",
+      "price": 128,
+      "sort_order": 5,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 6,
+      "category_id": 2,
+      "name": "油烟机清洗",
+      "description": "拆洗消毒",
+      "price": 168,
+      "sort_order": 6,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 7,
+      "category_id": 3,
+      "name": "马桶疏通",
+      "description": "各类马桶堵塞疏通",
+      "price": 120,
+      "sort_order": 7,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 8,
+      "category_id": 3,
+      "name": "下水道疏通",
+      "description": "地漏洗手池疏通",
+      "price": 150,
+      "sort_order": 8,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 9,
+      "category_id": 4,
+      "name": "居民搬家",
+      "description": "小件家具搬移",
+      "price": 500,
+      "sort_order": 9,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 10,
+      "category_id": 4,
+      "name": "公司搬迁",
+      "description": "办公室整体搬迁",
+      "price": 2000,
+      "sort_order": 10,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 11,
+      "category_id": 5,
+      "name": "美甲单色",
+      "description": "单手指甲上色",
+      "price": 68,
+      "sort_order": 11,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 12,
+      "category_id": 5,
+      "name": "美甲彩绘",
+      "description": "复杂图案设计",
+      "price": 128,
+      "sort_order": 12,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 13,
+      "category_id": 5,
+      "name": "美睫",
+      "description": "假睫毛种植",
+      "price": 198,
+      "sort_order": 13,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 14,
+      "category_id": 6,
+      "name": "挂机清洗",
+      "description": "壁挂式空调清洗消毒",
+      "price": 88,
+      "sort_order": 14,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 15,
+      "category_id": 6,
+      "name": "柜机清洗",
+      "description": "立式空调清洗消毒",
+      "price": 128,
+      "sort_order": 15,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 16,
+      "category_id": 7,
+      "name": "除甲醛",
+      "description": "新房甲醛检测+治理",
+      "price": 500,
+      "sort_order": 16,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 17,
+      "category_id": 8,
+      "name": "开锁",
+      "description": "快速上门开锁",
+      "price": 80,
+      "sort_order": 17,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 18,
+      "category_id": 8,
+      "name": "换锁芯",
+      "description": "升级C级锁芯",
+      "price": 200,
+      "sort_order": 18,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    }
+  ],
+  "banners": [
+    {
+      "id": 1,
+      "image": "https://images.unsplash.com/photo-1581578731548?w=750&h=300&fit=crop",
+      "sort_order": 1,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 2,
+      "image": "https://images.unsplash.com/photo-1558618666?w=750&h=300&fit=crop",
+      "sort_order": 2,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 3,
+      "image": "https://images.unsplash.com/photo-1628177142898?w=750&h=300&fit=crop",
+      "sort_order": 3,
+      "is_active": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    }
+  ],
+  "faqs": [
+    {
+      "id": 1,
+      "question": "预约流程是什么？",
+      "answer": "选择服务项目 → 填写地址和时间 → 确认订单 → 等待骑手接单",
+      "sort_order": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 2,
+      "question": "可以取消订单吗？",
+      "answer": "骑手接单前可随时取消，全额退款。接单后收取20%违约金。",
+      "sort_order": 2,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 3,
+      "question": "支付方式有哪些？",
+      "answer": "支持微信支付、余额支付。",
+      "sort_order": 3,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    },
+    {
+      "id": 4,
+      "question": "如何成为骑手？",
+      "answer": "在骑手端APP提交注册申请，上传身份证和交通工具信息，审核通过后即可接单。",
+      "sort_order": 4,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    }
+  ],
+  "admins": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "admin123",
+      "role": "superadmin",
+      "status": 1,
+      "created_at": "2026-07-22",
+      "updated_at": "2026-07-22"
+    }
+  ],
+  "users": [],
+  "riders": [],
+  "orders": [],
+  "payments": [],
+  "coupons": [],
+  "user_coupons": [],
+  "distributors": [],
+  "commission_logs": [],
+  "merchants": [],
+  "staff": [],
+  "dispatch_records": [],
+  "announcements": []
+}

@@ -24,7 +24,6 @@ function request(url, method = 'GET', data = {}, needAuth = false) {
       },
       success(res) {
         if (res.statusCode === 401 || (res.data && res.data.code === 401)) {
-          // Token 过期或无效，清除登录状态
           removeToken()
           removeUserInfo()
           wx.showToast({ title: '请重新登录', icon: 'none' })
@@ -80,4 +79,21 @@ module.exports = {
   listOrders: (params) => request('/api/orders', 'GET', params || {}, true),
   getOrderDetail: (id) => request('/api/orders/' + id, 'GET', {}, true),
   cancelOrder: (id) => request('/api/orders/' + id, 'DELETE', {}, true),
+
+  // ========== 骑手端 ==========
+  riderLogin: (data) => request('/api/rider/login', 'POST', data),
+  riderRegister: (data) => request('/api/rider/register', 'POST', data),
+  grabPool: () => request('/api/rider/grab-pool', 'GET', {}, true),
+  grabOrder: (data) => request('/api/rider/grab-order', 'POST', data, true),
+  myOrders: (params) => request('/api/rider/orders', 'GET', params || {}, true),
+  updateOrderStatus: (id, status) => {
+    const statusMap = { pickup: 'pickup', deliver: 'deliver', complete: 'complete' }
+    return request('/api/rider/orders/' + id + '/status', 'PUT', { status: statusMap[status] || status }, true)
+  },
+  riderStats: () => request('/api/rider/stats', 'GET', {}, true),
+  updateRiderStatus: (data) => request('/api/rider/status', 'PUT', data, true),
+  riderProfile: () => request('/api/rider/me', 'GET', {}, true),
+
+  // ========== 支付 ==========
+  getPaymentStatus: (orderNo) => request(`/api/payments?order_no=${orderNo}`, 'GET'),
 }

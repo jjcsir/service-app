@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>上门好服务 - 管理后台</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/api.js"></script>
+</head>
+<body>
+  <!-- Login Page -->
+  <div id="login-page" class="page">
+    <div class="login-container">
+      <div class="login-box">
+        <div class="login-logo">🏠</div>
+        <h1>上门好服务</h1>
+        <p class="login-subtitle">管理员后台</p>
+        <form id="login-form" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label>用户名</label>
+            <input type="text" id="username" placeholder="请输入用户名" value="admin" required>
+          </div>
+          <div class="form-group">
+            <label>密码</label>
+            <input type="password" id="password" placeholder="请输入密码" value="admin123" required>
+          </div>
+          <button type="submit" class="btn-primary btn-full">登 录</button>
+          <div id="login-error" class="error-msg"></div>
+        </form>
+        <div class="login-hint">
+          <small>默认账号: admin / admin123</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboard-page" class="page hidden">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span class="logo">🏠</span>
+        <span class="brand">上门好服务</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" onclick="showSection('overview')">
+          <span class="nav-icon">📊</span> 数据概览
+        </a>
+        <a href="#" class="nav-item" onclick="showSection('orders')">
+          <span class="nav-icon">📋</span> 订单管理
+        </a>
+        <a href="#" class="nav-item" onclick="showSection('riders')">
+          <span class="nav-icon">🛵</span> 骑手管理
+        </a>
+        <a href="#" class="nav-item" onclick="showSection('services')">
+          <span class="nav-icon">⚙️</span> 服务管理
+        </a>
+        <a href="#" class="nav-item" onclick="showSection('users')">
+          <span class="nav-icon">👥</span> 用户管理
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="btn-secondary btn-full" onclick="logout()">退出登录</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="top-header">
+        <h2 id="page-title">数据概览</h2>
+        <div class="user-info">
+          <span>👤 管理员</span>
+          <span class="datetime" id="current-time"></span>
+        </div>
+      </header>
+
+      <!-- Overview Section -->
+      <section id="section-overview" class="content-section">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon" style="background: #fff7e6;">📦</div>
+            <div class="stat-content">
+              <div class="stat-value" id="total-orders">0</div>
+              <div class="stat-label">总订单数</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background: #f0f5ff;">👥</div>
+            <div class="stat-content">
+              <div class="stat-value" id="total-users">0</div>
+              <div class="stat-label">用户数</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background: #f6ffed;">🛵</div>
+            <div class="stat-content">
+              <div class="stat-value" id="total-riders">0</div>
+              <div class="stat-label">骑手数</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background: #fff1f0;">💰</div>
+            <div class="stat-content">
+              <div class="stat-value" id="today-revenue">¥0</div>
+              <div class="stat-label">今日营收</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="card">
+            <h3>订单状态分布</h3>
+            <div class="status-list">
+              <div class="status-item">
+                <span class="status-label">待抢单</span>
+                <div class="progress-bar"><div class="progress" id="status-pending" style="width: 0%; background: #faad14;"></div></div>
+                <span class="status-count" id="count-pending">0</span>
+              </div>
+              <div class="status-item">
+                <span class="status-label">已接单</span>
+                <div class="progress-bar"><div class="progress" id="status-dispatched" style="width: 0%; background: #1890ff;"></div></div>
+                <span class="status-count" id="count-dispatched">0</span>
+              </div>
+              <div class="status-item">
+                <span class="status-label">进行中</span>
+                <div class="progress-bar"><div class="progress" id="status-doing" style="width: 0%; background: #52c41a;"></div></div>
+                <span class="status-count" id="count-doing">0</span>
+              </div>
+              <div class="status-item">
+                <span class="status-label">已完成</span>
+                <div class="progress-bar"><div class="progress" id="status-completed" style="width: 0%; background: #722ed1;"></div></div>
+                <span class="status-count" id="count-completed">0</span>
+              </div>
+              <div class="status-item">
+                <span class="status-label">已取消</span>
+                <div class="progress-bar"><div class="progress" id="status-cancelled" style="width: 0%; background: #ff4d4f;"></div></div>
+                <span class="status-count" id="count-cancelled">0</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>最近订单</h3>
+            <table class="mini-table" id="recent-orders">
+              <thead>
+                <tr><th>订单号</th><th>服务</th><th>金额</th><th>状态</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Orders Section -->
+      <section id="section-orders" class="content-section hidden">
+        <div class="toolbar">
+          <input type="text" class="search-input" id="order-search" placeholder="搜索订单号/地址..." oninput="loadOrders()">
+          <select class="filter-select" id="order-status-filter" onchange="loadOrders()">
+            <option value="">全部状态</option>
+            <option value="0">待抢单</option>
+            <option value="1">已接单</option>
+            <option value="2">进行中</option>
+            <option value="3">已完成</option>
+            <option value="4">已取消</option>
+          </select>
+          <button class="btn-secondary" onclick="loadOrders()">刷新</button>
+        </div>
+
+        <div class="card">
+          <table class="data-table" id="orders-table">
+            <thead>
+              <tr>
+                <th>订单号</th>
+                <th>用户</th>
+                <th>服务</th>
+                <th>地址</th>
+                <th>金额</th>
+                <th>状态</th>
+                <th>时间</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="orders-tbody">
+              <tr><td colspan="8" class="empty-row">加载中...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Order Detail Modal -->
+        <div id="order-modal" class="modal">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3>订单详情</h3>
+              <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="order-detail-content"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Riders Section -->
+      <section id="section-riders" class="content-section hidden">
+        <div class="toolbar">
+          <select class="filter-select" id="rider-status-filter" onchange="loadRiders()">
+            <option value="">全部骑手</option>
+            <option value="certified">已认证</option>
+            <option value="pending">待审核</option>
+          </select>
+          <button class="btn-secondary" onclick="loadRiders()">刷新</button>
+        </div>
+
+        <div class="card">
+          <table class="data-table" id="riders-table">
+            <thead>
+              <tr>
+                <th>姓名</th>
+                <th>电话</th>
+                <th>车辆</th>
+                <th>接单数</th>
+                <th>收入</th>
+                <th>等级</th>
+                <th>认证状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="riders-tbody">
+              <tr><td colspan="8" class="empty-row">加载中...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Rider Certify Modal -->
+        <div id="rider-modal" class="modal">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3>认证骑手</h3>
+              <button class="close-btn" onclick="closeRiderModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+              <p>是否通过该骑手的身份认证？</p>
+              <input type="hidden" id="rider-id-to-certify">
+              <div class="modal-actions">
+                <button class="btn-danger" onclick="certifyRider(false)">拒绝</button>
+                <button class="btn-primary" onclick="certifyRider(true)">通过</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Services Section -->
+      <section id="section-services" class="content-section hidden">
+        <div class="toolbar">
+          <button class="btn-primary" onclick="toggleAddServiceForm()">+ 添加服务</button>
+          <button class="btn-secondary" onclick="loadServices()">刷新</button>
+        </div>
+
+        <div id="add-service-form" class="card hidden" style="margin-bottom: 16px;">
+          <h3>添加新服务</h3>
+          <div class="form-row">
+            <input type="text" id="new-category" placeholder="分类ID (数字)">
+            <input type="text" id="new-name" placeholder="服务名称">
+            <input type="number" id="new-price" placeholder="价格">
+            <input type="text" id="new-description" placeholder="描述">
+          </div>
+          <div class="form-actions">
+            <button class="btn-secondary" onclick="toggleAddServiceForm()">取消</button>
+            <button class="btn-primary" onclick="addService()">保存</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>服务列表</h3>
+          <table class="data-table">
+            <thead>
+              <tr><th>ID</th><th>分类</th><th>名称</th><th>价格</th><th>状态</th><th>操作</th></tr>
+            </thead>
+            <tbody id="services-tbody">
+              <tr><td colspan="6" class="empty-row">加载中...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Users Section -->
+      <section id="section-users" class="content-section hidden">
+        <div class="toolbar">
+          <button class="btn-secondary" onclick="loadUsers()">刷新</button>
+        </div>
+
+        <div class="card">
+          <table class="data-table">
+            <thead>
+              <tr><th>ID</th><th>昵称</th><th>手机</th><th>订单数</th><th>注册时间</th></tr>
+            </thead>
+            <tbody id="users-tbody">
+              <tr><td colspan="5" class="empty-row">加载中...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -10,12 +10,33 @@ Page({
     myOrderCount: 0
   },
 
-  onShow() {
-    this.checkLogin()
-    this.loadData()
+  onLoad() {
+    this.riderLogin()
   },
 
-  checkLogin() {
+  onShow() {
+    this.checkRider()
+    this.loadStats()
+  },
+
+  async riderLogin() {
+    const token = api.getToken() || wx.getStorageSync('loginToken')
+    if (!token) return // Not logged in yet, will be handled by checkLogin
+
+    try {
+      const res = await api.riderLogin({ token })
+      if (res && res.token) {
+        api.setToken(res.token)
+      }
+      if (res && res.rider) {
+        this.setData({ riderName: res.rider.realname || '骑手' })
+      }
+    } catch (err) {
+      console.error('骑手登录失败:', err)
+    }
+  },
+
+  checkRider() {
     const token = api.getToken()
     if (!token) {
       wx.showModal({
@@ -31,22 +52,36 @@ Page({
     }
   },
 
-  loadData() {
-    // TODO: 调用骑手 API 获取统计数据
-    // 模拟数据
-    this.setData({
-      todayOrders: Math.floor(Math.random() * 10),
-      weekIncome: (Math.random() * 500).toFixed(0),
-      rating: (4.5 + Math.random() * 0.5).toFixed(1),
-      myOrderCount: Math.floor(Math.random() * 3)
-    })
+  async loadStats() {
+    try {
+      const res = await api.riderStats()
+      if (res && res.data) {
+        const d = res.data
+        this.setData({
+          todayOrders: d.todayOrders || 0,
+          weekIncome: d.weekIncome || '0',
+          rating: d.rating ? parseFloat(d.rating).toFixed(1) : '5.0',
+          myOrderCount: (d.total_orders || 0)
+        })
+      }
+    } catch (err) {
+      console.error('加载统计数据失败:', err)
+    }
   },
 
-  toggleOnline() {
-    this.setData({ isOnline: !this.data.isOnline })
-    const status = this.data.isOnline ? '离线' : '在线'
-    wx.showToast({ title: `已切换为${status}`, icon: 'none' })
-    // TODO: 调用 rider API 更新状态
+  async toggleOnline() {
+    const newStatus = !this.data.isOnline
+    this.setData({ isOnline: newStatus })
+
+    try {
+      await api.updateRiderStatus({ available: newStatus })
+      const status = newStatus ? '在线' : '离线'
+      wx.showToast({ title: `已切换为${status}`, icon: 'none' })
+    } catch (err) {
+      console.error('更新状态失败:', err)
+      this.setData({ isOnline: !newStatus })
+      wx.showToast({ title: '操作失败', icon: 'none' })
+    }
   },
 
   goGrab() {

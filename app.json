@@ -6,7 +6,9 @@
     "pages/mine/mine",
     "pages/rider/home/home",
     "pages/rider/grab/grab",
-    "pages/rider/orders/orders"
+    "pages/rider/orders/orders",
+    "pages/coupon/coupon",
+    "pages/wallet/wallet"
   ],
   "window": {
     "navigationBarBackgroundColor": "#FF6B35",

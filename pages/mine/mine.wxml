@@ -19,6 +19,16 @@
     </view>
   </view>
 
+  <!-- 骑手入口按钮（已登录可见） -->
+  <view class="rider-entry card" wx:if="{{isLoggedIn}}" bindtap="goRiderRegister">
+    <text class="rider-icon">🛵</text>
+    <view class="rider-info">
+      <text class="rider-title">成为骑手</text>
+      <text class="rider-desc">注册成为配送骑手，赚取收入</text>
+    </view>
+    <text class="rider-arrow">›</text>
+  </view>
+
   <!-- 模式切换 -->
   <view class="mode-switch card" wx:if="{{isLoggedIn}}">
     <view class="ms-left">

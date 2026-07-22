@@ -1,0 +1,58 @@
+<!-- 优惠券中心 -->
+<view class="page-coupon">
+  
+  <!-- Tab 切换 -->
+  <view class="coupon-tabs">
+    <view class="tab-item {{currentTab === 0 ? 'active' : ''}}" bindtap="switchTab" data-tab="0">可领优惠券</view>
+    <view class="tab-item {{currentTab === 1 ? 'active' : ''}}" bindtap="switchTab" data-tab="1">我的卡券</view>
+  </view>
+
+  <!-- Tab 0: 可领取列表 -->
+  <view class="coupon-list" wx:if="{{currentTab === 0}}">
+    <block wx:for="{{coupons}}" wx:key="id">
+      <view class="coupon-card card">
+        <view class="cc-left">
+          <text class="cc-amount">{{item.label}}</text>
+          <text class="cc-name">{{item.name}}</text>
+          <text class="cc-type-tag {{item.type === 'cash' ? 'tag-cash' : 'tag-discount'}}">{{item.typeLabel}}</text>
+        </view>
+        <view class="cc-right">
+          <text class="cc-validity">{{item.valid_days ? '领取后' + item.valid_days + '天有效' : (item.end_date ? '至 ' + item.end_date : '')}}</text>
+          <button class="btn-claim" size="mini" bindtap="claimCoupon" data-id="{{item.id}}">去领取</button>
+        </view>
+        <view class="cc-divider"></view>
+        <view class="cc-bottom">
+          <text class="cc-desc">{{item.description || '满可用'}}</text>
+        </view>
+      </view>
+    </block>
+    
+    <view class="empty-state" wx:if="{{coupons.length === 0}}">
+      <text class="empty-icon">🎫</text>
+      <text class="empty-text">暂无可领取的优惠券</text>
+    </view>
+  </view>
+
+  <!-- Tab 1: 我的卡券 -->
+  <view class="my-coupon-list" wx:if="{{currentTab === 1}}">
+    <block wx:for="{{myCoupons}}" wx:key="id">
+      <view class="mc-card card">
+        <view class="mc-left">
+          <text class="mc-amount">{{item.label}}</text>
+          <text class="mc-name">{{item.name}}</text>
+          <text class="mc-status {{item.statusClass}}">{{item.statusLabel}}</text>
+        </view>
+        <view class="mc-right">
+          <button class="btn-use btn-outline" size="mini" bindtap="useCoupon" data-idx="{{index}}">去使用</button>
+        </view>
+        <view class="mc-divider"></view>
+      </view>
+    </block>
+    
+    <view class="empty-state" wx:if="{{myCoupons.length === 0}}">
+      <text class="empty-icon">📭</text>
+      <text class="empty-text">还没有优惠券，快去领取吧~</text>
+    </view>
+  </view>
+
+</view>
