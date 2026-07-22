@@ -31,6 +31,16 @@
     <text class="rider-arrow">›</text>
   </view>
 
+  <!-- 商户工作台入口按钮（已登录可见） -->
+  <view class="rider-entry card merchant-entry" wx:if="{{isLoggedIn}}" bindtap="goMerchant">
+    <text class="rider-icon">🏢</text>
+    <view class="rider-info">
+      <text class="rider-title">商户工作台</text>
+      <text class="rider-desc">管理店铺、查看订单与财务</text>
+    </view>
+    <text class="rider-arrow">›</text>
+  </view>
+
   <!-- 模式切换 -->
   <view class="mode-switch card" wx:if="{{isLoggedIn}}">
     <view class="ms-left">
@@ -91,8 +101,7 @@
     <!-- 顾客端菜单 -->
     <block wx:if="{{currentMode === 'user'}}">
       <view class="menu-group card">
-        <view class="menu-item" bindtap="goMerchant"><text class="menu-icon">uD83CuDFE2</text><text class="menu-text">商户入驻</text><text class="menu-arrow">u203A</text></view>
-      <view class="menu-item" bindtap="goHelp">
+        <view class="menu-item" bindtap="goHelp">
           <text class="menu-icon">❓</text>
           <text class="menu-text">帮助中心</text>
           <text class="menu-arrow">›</text>

@@ -9,6 +9,7 @@
     "pages/rider/grab/grab",
     "pages/rider/orders/orders",
     "pages/coupon/coupon",
+    "pages/merchant/shops/shops",
     "pages/wallet/wallet",
     "pages/dist/detail/detail",
     "pages/dist/withdraw/withdraw"

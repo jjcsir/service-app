@@ -1,0 +1,28 @@
+@import '/app.wxss';
+.page-staff { padding: 24rpx; }
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24rpx; }
+.page-title { font-size: 36rpx; font-weight: bold; }
+.add-btn { font-size: 28rpx; color: var(--primary); }
+
+.staff-card { background: #fff; border-radius: 16rpx; padding: 24rpx; margin-bottom: 16rpx; display: flex; align-items: center; gap: 16rpx; }
+.staff-avatar { width: 80rpx; height: 80rpx; background: var(--primary-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36rpx; }
+.staff-info { flex: 1; }
+.staff-name { font-size: 28rpx; font-weight: 500; display: block; }
+.staff-phone { font-size: 24rpx; color: var(--text-secondary); margin-top: 4rpx; display: block; }
+.staff-role { font-size: 22rpx; color: var(--primary); margin-top: 4rpx; display: inline-block; background: var(--primary-bg); padding: 2rpx 12rpx; border-radius: 8rpx; }
+.staff-actions { display: flex; gap: 12rpx; }
+.action-icon { font-size: 28rpx; }
+.action-icon.delete { color: #ff4d4f; }
+
+.empty-state { text-align: center; padding: 80rpx 0; color: var(--text-secondary); }
+
+.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: flex-end; }
+.modal-content { background: #fff; width: 100%; border-radius: 32rpx 32rpx 0 0; padding: 40rpx 30rpx; }
+.modal-title { font-size: 32rpx; font-weight: bold; margin-bottom: 30rpx; }
+.form-group { margin-bottom: 20rpx; }
+.label { font-size: 26rpx; display: block; margin-bottom: 8rpx; }
+.label.required::before { content: '* '; color: #ff4d4f; }
+.picker-value { padding: 12rpx 16rpx; border: 2rpx solid var(--border); border-radius: 12rpx; font-size: 26rpx; }
+.modal-actions { display: flex; gap: 20rpx; margin-top: 30rpx; }
+.btn-cancel { flex: 1; padding: 16rpx; background: #f5f5f5; border-radius: 12rpx; text-align: center; font-size: 28rpx; }
+.btn-save { flex: 1; padding: 16rpx; background: var(--primary); color: #fff; border-radius: 12rpx; text-align: center; font-size: 28rpx; }

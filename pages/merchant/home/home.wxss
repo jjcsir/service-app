@@ -1,0 +1,41 @@
+@import '/app.wxss';
+
+.page-merchant-home { padding-bottom: 30rpx; }
+
+.merchant-header {
+  padding: 40rpx;
+  border-radius: 0 0 32rpx 32rpx;
+  margin-bottom: 24rpx;
+}
+.header-title { font-size: 36rpx; font-weight: bold; color: #fff; display: block; }
+.header-subtitle { font-size: 24rpx; color: rgba(255,255,255,0.85); margin-top: 8rpx; display: block; }
+
+.stats-grid { margin: 0 24rpx; display: flex; justify-content: space-around; padding: 30rpx 0; }
+.stat-item { text-align: center; }
+.stat-value { font-size: 36rpx; font-weight: bold; color: var(--text-primary); display: block; }
+.stat-label { font-size: 22rpx; color: var(--text-secondary); margin-top: 8rpx; display: block; }
+
+.quick-actions { margin: 24rpx; }
+.card-title { font-size: 28rpx; font-weight: bold; margin-bottom: 20rpx; }
+.action-grid { display: flex; flex-wrap: wrap; gap: 16rpx; }
+.action-item { width: calc(25% - 12rpx); text-align: center; padding: 20rpx 0; background: var(--primary-bg); border-radius: 16rpx; }
+.action-icon { font-size: 40rpx; display: block; margin-bottom: 8rpx; }
+.action-text { font-size: 22rpx; color: var(--text-secondary); }
+
+.recent-orders { margin: 24rpx; }
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16rpx; }
+.more-link { font-size: 24rpx; color: var(--primary); }
+
+.order-item { padding: 20rpx 0; border-bottom: 1rpx solid var(--border); }
+.order-service { font-size: 28rpx; font-weight: 500; }
+.order-time { font-size: 22rpx; color: var(--text-secondary); margin-top: 4rpx; display: block; }
+.order-bottom { display: flex; justify-content: space-between; margin-top: 10rpx; }
+.order-amount { font-size: 30rpx; color: var(--primary); font-weight: bold; }
+.order-status { font-size: 22rpx; }
+.status-0 { color: orange; }
+.status-1 { color: #1890ff; }
+.status-2 { color: #1890ff; }
+.status-3 { color: #52c41a; }
+.status-4 { color: #999; }
+
+.empty-state { text-align: center; padding: 40rpx; color: var(--text-secondary); }

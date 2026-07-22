@@ -112,6 +112,7 @@ module.exports = {
   addShop: (data) => request('/api/merchants/shops', 'POST', data, true),
   getShops: (merchantId) => request('/api/merchants/shops?merchant_id=' + merchantId, 'GET'),
   deleteShop: (id) => request('/api/merchants/shops/' + id, 'DELETE', {}, true),
+  updateShop: (id, data) => request('/api/merchants/shops/' + id, 'PUT', data, true),
   addStaff: (data) => request('/api/merchants/staff', 'POST', data, true),
   getStaffList: (merchantId) => request('/api/merchants/staff?merchant_id=' + merchantId, 'GET'),
   getShopTypes: () => request('/api/shop-types', 'GET'),

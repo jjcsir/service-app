@@ -1,0 +1,34 @@
+@import '/app.wxss';
+
+.page-shops { padding: 24rpx; }
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24rpx; }
+.page-title { font-size: 36rpx; font-weight: bold; }
+.add-btn { font-size: 28rpx; color: var(--primary); font-weight: 500; }
+
+.shop-card { background: #fff; border-radius: 20rpx; padding: 24rpx; margin-bottom: 20rpx; box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06); }
+.shop-header { display: flex; align-items: center; gap: 16rpx; margin-bottom: 16rpx; }
+.shop-logo { width: 64rpx; height: 64rpx; border-radius: 12rpx; }
+.shop-info { flex: 1; }
+.shop-name { font-size: 30rpx; font-weight: bold; display: block; }
+.shop-type { font-size: 22rpx; color: var(--text-secondary); margin-top: 4rpx; display: block; }
+.shop-actions { display: flex; gap: 12rpx; }
+.action-icon { font-size: 32rpx; }
+.action-icon.delete { color: #ff4d4f; }
+.shop-detail { font-size: 24rpx; color: var(--text-secondary); line-height: 1.8; }
+.shop-stats { display: flex; justify-content: flex-end; gap: 24rpx; margin-top: 12rpx; font-size: 22rpx; color: var(--text-secondary); }
+
+.empty-state { text-align: center; padding: 80rpx 0; color: var(--text-secondary); }
+
+/* Modal */
+.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: flex-end; justify-content: center; }
+.modal-content { background: #fff; width: 100%; border-radius: 32rpx 32rpx 0 0; padding: 40rpx 30rpx; max-height: 80vh; overflow-y: auto; }
+.modal-title { font-size: 32rpx; font-weight: bold; margin-bottom: 30rpx; }
+.form-group { margin-bottom: 20rpx; }
+.label { font-size: 26rpx; color: var(--text-primary); display: block; margin-bottom: 8rpx; }
+.label.required::before { content: '* '; color: #ff4d4f; }
+.modal-actions { display: flex; gap: 20rpx; margin-top: 30rpx; }
+.btn-cancel { flex: 1; padding: 16rpx; background: #f5f5f5; border-radius: 12rpx; text-align: center; font-size: 28rpx; }
+.btn-save { flex: 1; padding: 16rpx; background: var(--primary); color: #fff; border-radius: 12rpx; text-align: center; font-size: 28rpx; }
+.upload-area { border: 2rpx dashed var(--border); border-radius: 12rpx; padding: 30rpx; text-align: center; }
+.upload-placeholder { color: var(--text-secondary); font-size: 26rpx; }
+.logo-preview { width: 120rpx; height: 120rpx; border-radius: 12rpx; }
