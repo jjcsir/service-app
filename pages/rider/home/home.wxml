@@ -1,0 +1,70 @@
+<!-- 骑手首页 ── UI设计 -->
+<view class="page-rider">
+  
+  <!-- 顶部导航 -->
+  <view class="rider-header">
+    <text class="greeting">下午好，{{riderName || '骑手'}} 👋</text>
+    <view class="online-switch">
+      <text class="switch-label">{{isOnline ? '在线' : '离线'}}</text>
+      <view class="toggle {{isOnline ? 'on' : ''}}" bindtap="toggleOnline">
+        <view class="toggle-knob"></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 今日数据 -->
+  <view class="stats-row card">
+    <view class="stat-box">
+      <text class="num">{{todayOrders}}</text>
+      <text class="label">今日接单</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-box">
+      <text class="num">¥{{weekIncome}}</text>
+      <text class="label">本周收入</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-box">
+      <text class="num">{{rating}}</text>
+      <text class="label">评分</text>
+    </view>
+  </view>
+
+  <!-- 核心功能按钮 -->
+  <view class="action-buttons">
+    <view class="big-btn btn-grab" bindtap="goGrab">
+      <text class="btn-icon">🎯</text>
+      <text class="btn-title">抢单池</text>
+      <text class="btn-sub">查看可接订单</text>
+    </view>
+    <view class="big-btn btn-orders" bindtap="goMyOrders">
+      <text class="btn-icon">📋</text>
+      <text class="btn-title">我的订单</text>
+      <text class="btn-sub">{{myOrderCount}}个进行中</text>
+    </view>
+  </view>
+
+  <!-- 快捷功能 -->
+  <view class="section card">
+    <view class="section-title">常用功能</view>
+    <view class="quick-menu">
+      <view class="qm-item" bindtap="goWallet">
+        <text class="qm-icon">💰</text>
+        <text class="qm-text">钱包余额</text>
+        <text class="qm-arrow">›</text>
+      </view>
+      <view class="qm-item" bindtap="goWithdraw">
+        <text class="qm-icon">🏦</text>
+        <text class="qm-text">申请提现</text>
+        <text class="qm-arrow">›</text>
+      </view>
+      <view class="qm-item" bindtap="goProfile">
+        <text class="qm-icon">👤</text>
+        <text class="qm-text">个人信息</text>
+        <text class="qm-arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <view style="height: 100rpx;"></view>
+</view>

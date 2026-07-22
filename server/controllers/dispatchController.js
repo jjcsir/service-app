@@ -1,97 +1,49 @@
-const ds = require('../db/datastore');
-const { getAll, getById, insert, updateById, count } = ds;
+var ds = require('../db/datastore');
 
 function viewPool(req, res) {
-  const pendingOrders = getAll('orders', { 
-    where: { status: [0, 5] }, 
-    orderBy: { col: 'created_at', dir: 'ASC' } 
-  });
-  
-  // Enrich orders
-  const services = getAll('services', {});
-  const users = getAll('users', {});
-  
-  for (const order of pendingOrders) {
-    const svc = services.find(s => s.id === order.service_id);
-    const usr = users.find(u => u.id === order.user_id);
-    order.service_name = svc?.name || '';
-    order.user_nickname = usr?.nickname || '';
-    order.user_phone = usr?.phone || '';
+  var pendingOrders = ds.getAll('orders', { where: { status: [0,5] }, orderBy: { col: 'created_at', dir: 'ASC' } });
+  var svcMap={}, usrMap={};
+  ds.getAll('services',{}).forEach(function(s){svcMap[s.id]=s.name;});
+  ds.getAll('users',{}).forEach(function(u){usrMap[u.id]=u;});
+  for (var i=0;i<pendingOrders.length;i++){
+    pendingOrders[i].service_name=svcMap[pendingOrders[i].service_id]||'';
+    if(usrMap[pendingOrders[i].user_id]){pendingOrders[i].user_nickname=usrMap[pendingOrders[i].user_id].nickname||'';pendingOrders[i].user_phone=usrMap[pendingOrders[i].user_id].phone||'';}
   }
-  
-  const nearbyRiders = getAll('riders', { 
-    where: { is_active: 1, available: 1, cert_status: 1 } 
-  });
-  
+  var nearbyRiders = ds.getAll('riders', { where: { is_active: 1, available: 1, cert_status: 1 } });
   res.json({ code: 0, data: { orders: pendingOrders, riders: nearbyRiders } });
 }
 
 function assignOrder(req, res) {
-  const { order_no, rider_id, source } = req.body || {};
-  
-  const orders = getAll('orders', { where: { order_no } });
-  if (orders.length === 0) return res.json({ code: 400, message: '订单无效' });
-  if (!([0, 5].includes(orders[0].status))) return res.json({ code: 400, message: '订单状态无效' });
-  
-  const rider = getById('riders', rider_id);
-  if (!rider) return res.json({ code: 400, message: '骑手不存在' });
-  
-  updateById('orders', orders[0].id, { rider_id, status: 5 });
-  
-  insert('dispatch_records', { 
-    order_id: order_no, operator_id: req.user.userId, to_rider_id: rider_id, 
-    method: 'assign', reason: source || '' 
-  });
-  
-  res.json({ code: 0, message: '指派成功' });
-}
-
-function transferOrder(req, res) {
-  const { order_no, from_rider_id, to_rider_id } = req.body || {};
-  
-  const orders = getAll('orders', { where: { order_no } });
-  const order = orders.find(o => o.rider_id == from_rider_id);
-  
-  if (order) {
-    updateById('orders', order.id, { rider_id: to_rider_id, status: 1 });
-    insert('dispatch_records', { 
-      order_id: order_no, from_rider_id, to_rider_id, method: 'transfer', reason: '转单' 
-    });
-  }
-  
-  res.json({ code: 0, message: '转单成功' });
+  var order_no = req.body.order_no, rider_id = req.body.rider_id, source = req.body.source;
+  var orders = ds.getAll('orders', { where: { order_no: order_no } }).filter(function(o){return [0,5].indexOf(o.status)>=0;});
+  if (orders.length===0) return res.json({code:400,message:'订单无效'});
+  var rider = ds.getByField('riders','id',rider_id);
+  if (!rider) return res.json({code:400,message:'骑手不存在'});
+  ds.updateById('orders',orders[0].id,{rider_id:rider_id,status:5});
+  ds.insert('dispatch_records',{order_id:order_no,operator_id:req.user.userId,to_rider_id:rider_id,method:'assign',reason:source||''});
+  res.json({code:0,message:'指派成功'});
 }
 
 function autoDispatch(req, res) {
-  const expandRadiusKm = req.body?.expandRadiusKm || 2;
-  const maxExpansions = req.body?.maxExpansions || 5;
-  
-  let dispatched = 0;
-  const pendingOrders = getAll('orders', { where: { status: 0, rider_id: null } });
-  const availableRiders = getAll('riders', { where: { is_active: 1, available: 1, cert_status: 1 } });
-  
-  for (const order of pendingOrders.slice(0, maxExpansions * 2)) {
-    if (availableRiders.length === 0) break;
-    
-    const rider = availableRiders[Math.floor(Math.random() * availableRiders.length)];
-    updateById('orders', order.id, { rider_id: rider.id, status: 5 });
-    
-    insert('dispatch_records', { 
-      order_id: order.order_no, to_rider_id: rider.id, 
-      method: 'auto', reason: '自动派单', auto_expand: 1, radius_km: expandRadiusKm
-    });
-    
+  var expandRadiusKm = req.body.expandRadiusKm||2;
+  var maxExpansions = req.body.maxExpansions||5;
+  var dispatched = 0;
+  var pendingOrders = ds.getAll('orders', { where: { status: 0 } });
+  var availableRiders = ds.getAll('riders', { where: { is_active: 1, available: 1, cert_status: 1 } });
+  var limit = Math.min(pendingOrders.length, maxExpansions*2);
+  for (var i=0;i<limit;i++){
+    if (availableRiders.length===0) break;
+    var rider = availableRiders[Math.floor(Math.random()*availableRiders.length)];
+    ds.updateById('orders',pendingOrders[i].id,{rider_id:rider.id,status:5});
+    ds.insert('dispatch_records',{order_id:pendingOrders[i].order_no,to_rider_id:rider.id,method:'auto',reason:'自动派单',auto_expand:1,radius_km:expandRadiusKm});
     dispatched++;
   }
-  
-  res.json({ code: 0, data: { dispatched, expanded: expandRadiusKm, message: `自动派单完成，共分配 ${dispatched} 个订单` } });
+  res.json({code:0,data:{dispatched:dispatched,expanded:expandRadiusKm,message:'自动派单完成，共分配 '+dispatched+' 个订单'}});
 }
 
 function getDispatchRecords(req, res) {
-  const records = getAll('dispatch_records', { 
-    orderBy: { col: 'created_at', dir: 'DESC' }
-  }).slice(0, 50);
-  res.json({ code: 0, data: records });
+  var records = ds.getAll('dispatch_records',{orderBy:{col:'created_at',dir:'DESC'}}).slice(0,50);
+  res.json({code:0,data:records});
 }
 
-module.exports = { viewPool, assignOrder, transferOrder, autoDispatch, getDispatchRecords };
+module.exports = {viewPool:viewPool,assignOrder:assignOrder,autoDispatch:autoDispatch,getDispatchRecords:getDispatchRecords};

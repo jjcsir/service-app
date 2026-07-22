@@ -1,0 +1,102 @@
+/* ============================================
+   骑手首页 ── UI设计
+   ============================================ */
+
+.page-rider { padding-bottom: 100rpx; }
+
+/* ── 顶部 ── */
+.rider-header {
+  background: linear-gradient(135deg, #4A90D9, #6BA5E7);
+  padding: 30rpx 24rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.greeting { font-size: 32rpx; color: #fff; font-weight: 600; }
+
+.online-switch { display: flex; align-items: center; gap: 12rpx; }
+.switch-label { font-size: 24rpx; color: rgba(255,255,255,0.8); }
+
+.toggle {
+  width: 80rpx;
+  height: 44rpx;
+  background: rgba(255,255,255,0.3);
+  border-radius: 22rpx;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.toggle.on { background: #52c41a; }
+
+.toggle-knob {
+  width: 36rpx;
+  height: 36rpx;
+  background: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 4rpx;
+  left: 4rpx;
+  transition: left 0.3s;
+}
+
+.toggle.on .toggle-knob { left: 40rpx; }
+
+/* ── 数据行 ── */
+.stats-row {
+  display: flex;
+  margin: -24rpx 24rpx 0;
+  padding: 28rpx;
+  position: relative;
+  z-index: 1;
+}
+
+.stat-box { flex: 1; text-align: center; }
+.num { font-size: 40rpx; font-weight: bold; color: var(--primary); display: block; }
+.label { font-size: 22rpx; color: var(--text-placeholder); margin-top: 8rpx; display: block; }
+.stat-divider { width: 1rpx; background: var(--border); }
+
+/* ── 大按钮 ── */
+.action-buttons { padding: 24rpx; display: flex; flex-direction: column; gap: 20rpx; }
+
+.big-btn {
+  display: flex;
+  align-items: center;
+  padding: 32rpx;
+  border-radius: var(--radius-md);
+  transition: all 0.2s;
+}
+
+.big-btn:active { transform: scale(0.98); }
+
+.btn-grab {
+  background: linear-gradient(135deg, #FF6B35, #FF8F5E);
+  box-shadow: 0 4rpx 16rpx rgba(255, 107, 53, 0.3);
+}
+
+.btn-orders {
+  background: linear-gradient(135deg, #4A90D9, #6BA5E7);
+  box-shadow: 0 4rpx 16rpx rgba(74, 144, 217, 0.3);
+}
+
+.btn-icon { font-size: 60rpx; margin-right: 24rpx; }
+.btn-title { font-size: 30rpx; color: #fff; font-weight: bold; display: block; }
+.btn-sub { font-size: 22rpx; color: rgba(255,255,255,0.8); margin-top: 4rpx; display: block; }
+
+/* ── 常用功能 ── */
+.section-title { font-size: 28rpx; font-weight: 600; margin-bottom: 16rpx; }
+
+.quick-menu { padding: 0; }
+
+.qm-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid var(--border);
+}
+
+.qm-item:last-child { border-bottom: none; }
+
+.qm-icon { font-size: 36rpx; margin-right: 16rpx; }
+.qm-text { flex: 1; font-size: 28rpx; color: var(--text-primary); }
+.qm-arrow { font-size: 32rpx; color: #ddd; }

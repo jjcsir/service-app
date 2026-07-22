@@ -1,0 +1,40 @@
+<!-- 骑手订单页 -->
+<view class="page-rider-orders">
+  
+  <!-- Tab Bar -->
+  <view class="tab-bar">
+    <view class="tab-item {{activeTab==index?'active':''}}" 
+          wx:for="{{tabs}}" wx:key="index" bindtap="switchTab" data-index="{{index}}">
+      <text>{{item}}</text>
+    </view>
+  </view>
+
+  <!-- 订单列表 -->
+  <block wx:if="{{orders.length > 0}}">
+    <view class="ro-card card" wx:for="{{orders}}" wx:key="id">
+      <view class="ro-header flex-between">
+        <text class="ro-no">{{item.order_no}}</text>
+        <text class="ro-status status-tag {{item.statusCls}}">{{item.statusText}}</text>
+      </view>
+      <view class="ro-body">
+        <text class="ro-service">{{getItemEmoji(item.service_name)}} {{item.service_name}}</text>
+        <text class="ro-address">📍 {{item.start_address || '-'}}</text>
+      </view>
+      <view class="ro-footer flex-between">
+        <text class="ro-amount">¥{{item.paid_amount}}</text>
+        <view class="ro-actions">
+          <button wx:if="{{item.statusIdx == 1}}" class="ro-btn btn-outline" size="mini" bindtap="onPickup" data-id="{{item.id}}">取货</button>
+          <button wx:if="{{item.statusIdx == 2}}" class="ro-btn btn-primary" size="mini" bindtap="onDeliver" data-id="{{item.id}}">送货</button>
+          <button wx:if="{{item.statusIdx == 3}}" class="ro-btn btn-primary" size="mini" bindtap="onComplete" data-id="{{item.id}}">完成</button>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <view class="empty-state" wx:else>
+    <text class="empty-icon">✅</text>
+    <text class="empty-text">暂无{{tabs[activeTab] || ''}}订单</text>
+  </view>
+
+  <view style="height: 100rpx;"></view>
+</view>

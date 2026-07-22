@@ -1,0 +1,55 @@
+<!-- 骑手抢单页 -->
+<view class="page-grab">
+  
+  <!-- 头部 -->
+  <view class="grab-header">
+    <text class="title">🎯 抢单池</text>
+    <text class="count">{{orders.length}} 个待抢订单</text>
+  </view>
+
+  <!-- 刷新按钮 -->
+  <view class="refresh-row flex-between">
+    <text class="subtitle">最新订单优先</text>
+    <button class="refresh-btn btn-text" bindtap="refresh">↻ 刷新</button>
+  </view>
+
+  <!-- 订单列表 -->
+  <view class="order-list">
+    <view class="grab-card card" wx:for="{{orders}}" wx:key="id">
+      <view class="gc-top flex-between">
+        <view class="gc-service">
+          <text class="gc-icon">{{getItemEmoji(item.service_name)}}</text>
+          <text class="gc-name text-ellipsis">{{item.service_name || '上门服务'}}</text>
+        </view>
+        <text class="gc-amount">¥{{item.total_amount}}</text>
+      </view>
+
+      <view class="gc-body">
+        <view class="gc-row">
+          <text class="gc-label">地址</text>
+          <text class="gc-value text-ellipsis">{{item.start_address || '暂无地址'}}</text>
+        </view>
+        <view class="gc-row">
+          <text class="gc-label">时间</text>
+          <text class="gc-value">{{item.created_at?.split('T')?.[0] || '今天'}}</text>
+        </view>
+      </view>
+
+      <view class="gc-footer flex-between">
+        <text class="gc-time">{{item.created_at?.split(' ')?.[1]?.slice(0,5) || '刚刚'}}</text>
+        <button class="grab-btn btn-primary" size="mini" 
+                disabled="{{item.grabbed}}" bindtap="onGrab" data-id="{{item.order_no}}">
+          {{item.grabbed ? '已抢' : '立即抢单'}}
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{orders.length === 0 && !loading}}">
+    <text class="empty-icon">🛵</text>
+    <text class="empty-text">暂无可抢订单</text>
+  </view>
+
+  <view style="height: 100rpx;"></view>
+</view>

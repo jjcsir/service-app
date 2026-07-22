@@ -3,7 +3,10 @@
     "pages/index/index",
     "pages/book/book",
     "pages/order/order",
-    "pages/mine/mine"
+    "pages/mine/mine",
+    "pages/rider/home/home",
+    "pages/rider/grab/grab",
+    "pages/rider/orders/orders"
   ],
   "window": {
     "navigationBarBackgroundColor": "#FF6B35",
@@ -18,18 +21,9 @@
     "backgroundColor": "#FFFFFF",
     "borderStyle": "black",
     "list": [
-      {
-        "pagePath": "pages/index/index",
-        "text": "首页"
-      },
-      {
-        "pagePath": "pages/order/order",
-        "text": "订单"
-      },
-      {
-        "pagePath": "pages/mine/mine",
-        "text": "我的"
-      }
+      { "pagePath": "pages/index/index", "text": "首页" },
+      { "pagePath": "pages/order/order", "text": "订单" },
+      { "pagePath": "pages/mine/mine", "text": "我的" }
     ]
   },
   "sitemapLocation": "sitemap.json"

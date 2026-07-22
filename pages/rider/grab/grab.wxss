@@ -1,0 +1,62 @@
+/* ============================================
+   抢单页 ── UI设计
+   ============================================ */
+
+.page-grab { padding: 0; padding-bottom: 100rpx; }
+
+.grab-header {
+  background: linear-gradient(135deg, #FF6B35, #FF8F5E);
+  padding: 24rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title { font-size: 34rpx; color: #fff; font-weight: bold; }
+.count { font-size: 22rpx; color: rgba(255,255,255,0.8); }
+
+.refresh-row {
+  padding: 20rpx 24rpx;
+  background: var(--card-bg);
+  margin-bottom: 12rpx;
+}
+
+.subtitle { font-size: 24rpx; color: var(--text-placeholder); }
+.refresh-btn { font-size: 24rpx !important; color: var(--primary) !important; }
+
+/* ── 抢单卡片 ── */
+.order-list { padding: 0 24rpx; }
+
+.grab-card { margin-bottom: 16rpx !important; padding: 24rpx !important; }
+
+.gc-top { margin-bottom: 16rpx; }
+
+.gc-service { display: flex; align-items: center; gap: 12rpx; }
+.gc-icon { font-size: 40rpx; }
+.gc-name { font-size: 28rpx; font-weight: 500; }
+
+.gc-amount { font-size: 36rpx; color: var(--primary); font-weight: bold; }
+
+.gc-body { margin-bottom: 16rpx; }
+.gc-row { display: flex; font-size: 24rpx; margin-bottom: 8rpx; }
+.gc-label { color: var(--text-placeholder); width: 80rpx; flex-shrink: 0; }
+.gc-value { color: var(--text-secondary); flex: 1; }
+
+.gc-footer { display: flex; justify-content: space-between; align-items: center; }
+.gc-time { font-size: 22rpx; color: var(--text-placeholder); }
+
+.grab-btn {
+  min-width: 160rpx;
+  height: 56rpx !important;
+  line-height: 56rpx !important;
+  font-size: 24rpx !important;
+}
+
+.grab-btn[disabled] {
+  opacity: 0.5 !important;
+  background: #ccc !important;
+}
+
+.empty-state { text-align: center; padding: 120rpx 0; }
+.empty-icon { font-size: 100rpx; opacity: 0.3; display: block; }
+.empty-text { font-size: 28rpx; color: var(--text-placeholder); margin-top: 16rpx; display: block; }

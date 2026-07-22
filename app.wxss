@@ -1,37 +1,162 @@
+/* ============================================
+   上门好服务 — 全局样式（Design System）
+   ============================================ */
+
+/* ── CSS Variables ── */
 page {
-  background-color: #F5F5F5;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --primary: #FF6B35;
+  --primary-light: #FF8F5E;
+  --primary-bg: #FFF5F0;
+  --secondary: #4A90D9;
+  --success: #52c41a;
+  --warning: #faad14;
+  --danger: #ff4d4f;
+  --bg: #F7F8FA;
+  --card-bg: #FFFFFF;
+  --text-primary: #1A1A1A;
+  --text-secondary: #666666;
+  --text-placeholder: #999999;
+  --border: #EEEEEE;
+  --shadow-card: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
+  --radius-sm: 8rpx;
+  --radius-md: 16rpx;
+  --radius-lg: 24rpx;
+  --radius-round: 50rpx;
+  
+  background-color: var(--bg);
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif;
   font-size: 28rpx;
-  color: #333;
+  color: var(--text-primary);
+  line-height: 1.6;
 }
 
+/* ── 重置 ── */
+view, text, image, scroll-view { box-sizing: border-box; }
+button { margin: 0; padding: 0; }
+button::after { border: none; }
+textarea { border-radius: var(--radius-sm); }
+
+/* ── 通用容器 ── */
 .container {
-  padding: 20rpx;
+  padding: 24rpx;
+  padding-bottom: 160rpx;
 }
 
-.section-title {
+/* ── 渐变背景 ── */
+.gradient-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+}
+
+/* ── 卡片 ── */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius-md);
+  padding: 28rpx;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 20rpx;
+}
+
+/* ── 按钮 ── */
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light)) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: var(--radius-round) !important;
+  font-weight: 500 !important;
+  height: 80rpx !important;
+  line-height: 80rpx !important;
+  font-size: 30rpx !important;
+}
+
+.btn-outline {
+  background: transparent !important;
+  color: var(--primary) !important;
+  border: 2rpx solid var(--primary) !important;
+  border-radius: var(--radius-round) !important;
+  font-size: 26rpx !important;
+  padding: 0 32rpx !important;
+  height: 56rpx !important;
+  line-height: 56rpx !important;
+}
+
+.btn-text {
+  background: transparent !important;
+  color: var(--primary) !important;
+  border: none !important;
+  font-size: 26rpx !important;
+  padding: 0 !important;
+}
+
+/* ── 状态标签 ── */
+.status-tag {
+  display: inline-block;
+  padding: 4rpx 16rpx;
+  border-radius: var(--radius-round);
+  font-size: 22rpx;
+  font-weight: 500;
+}
+.status-pending { background: #FFF7E6; color: #D48806; }
+.status-doing   { background: #E6F7FF; color: #1890FF; }
+.status-done    { background: #F6FFED; color: #52C41A; }
+.status-cancelled { background: #FFF1F0; color: #FF4D4F; }
+.status-default { background: #F5F5F5; color: #999; }
+
+/* ── 空状态 ── */
+.empty-state {
+  text-align: center;
+  padding: 120rpx 40rpx;
+}
+.empty-state .empty-icon { font-size: 120rpx; opacity: 0.3; }
+.empty-state .empty-text { font-size: 28rpx; color: var(--text-placeholder); margin-top: 16rpx; display: block; }
+
+/* ── Flex 工具 ── */
+.flex { display: flex; }
+.flex-between { display: flex; justify-content: space-between; align-items: center; }
+.flex-center { display: flex; justify-content: center; align-items: center; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-1 { flex: 1; }
+
+/* ── 文本截断 ── */
+.text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* ── 分割线 ── */
+.divider {
+  height: 1rpx;
+  background: var(--border);
+  margin: 16rpx 0;
+}
+
+/* ── Section标题 ── */
+.section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20rpx 0;
+  margin-bottom: 20rpx;
+}
+.section-title {
   font-size: 32rpx;
   font-weight: bold;
+  color: var(--text-primary);
 }
-
-.more {
+.section-more {
   font-size: 24rpx;
-  color: #999;
-  font-weight: normal;
+  color: var(--text-placeholder);
 }
 
-.price {
-  color: #FF6B35;
-  font-weight: bold;
+/* ── 输入框 ── */
+.input-field {
+  width: 100%;
+  min-height: 88rpx;
+  background: var(--bg);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 20rpx 24rpx;
+  font-size: 28rpx;
+  color: var(--text-primary);
+  box-sizing: border-box;
 }
-
-.book-btn {
-  background-color: #FF6B35 !important;
-  color: white !important;
-  border-radius: 30rpx !important;
-  font-size: 24rpx !important;
-}
+.input-field::placeholder { color: var(--text-placeholder); }

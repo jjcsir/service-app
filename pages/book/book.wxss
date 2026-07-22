@@ -1,112 +1,133 @@
-.container { padding: 20rpx; padding-bottom: 140rpx; }
+/* ============================================
+   预约页 ── 全新UI设计
+   ============================================ */
 
-.service-header {
-  display: flex;
-  align-items: center;
-  background: #fff;
-  border-radius: 16rpx;
-  padding: 30rpx;
+.page-book { padding-bottom: 160rpx; }
+
+/* ── 服务信息卡 ── */
+.service-card {
+  background: linear-gradient(135deg, #FFF5F0, #FFFAF5);
+  border-radius: var(--radius-md);
+  padding: 32rpx;
   margin-bottom: 20rpx;
+  box-shadow: var(--shadow-card);
 }
 
-.service-logo {
+.svc-top { display: flex; gap: 24rpx; margin-bottom: 24rpx; }
+
+.svc-icon-box {
   width: 120rpx;
   height: 120rpx;
-  border-radius: 12rpx;
-  background: #FFF3ED;
-  margin-right: 20rpx;
+  background: var(--card-bg);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.06);
 }
 
-.s-name { font-size: 34rpx; font-weight: bold; }
-.s-price { font-size: 36rpx; color: #FF6B35; font-weight: bold; margin-top: 10rpx; }
-.s-cat { font-size: 22rpx; color: #999; margin-top: 6rpx; }
+.svc-emoji { font-size: 56rpx; }
 
-.section {
-  background: #fff;
-  border-radius: 16rpx;
-  padding: 24rpx;
-  margin-bottom: 20rpx;
-}
+.svc-info { flex: 1; min-width: 0; }
+.svc-name { font-size: 34rpx; font-weight: bold; display: block; margin-bottom: 6rpx; }
+.svc-cat { font-size: 22rpx; color: var(--text-placeholder); display: block; margin-bottom: 10rpx; }
+.svc-desc { font-size: 24rpx; color: var(--text-secondary); display: block; }
 
-.label {
-  font-size: 30rpx;
-  font-weight: bold;
-  margin-bottom: 16rpx;
-  display: block;
-}
+.price-block { display: flex; align-items: baseline; gap: 8rpx; }
+.price-label { font-size: 22rpx; color: var(--text-placeholder); }
+.price-value { font-size: 44rpx; color: var(--primary); font-weight: bold; }
+.price-unit { font-size: 22rpx; color: var(--text-placeholder); }
 
-.date-scroll {
-  white-space: nowrap;
-  padding-bottom: 10rpx;
-}
+/* ── 通用 Section ── */
+.section { padding-top: 28rpx !important; }
+
+.label { font-size: 30rpx; font-weight: 600; display: block; }
+
+.date-scroll { white-space: nowrap; }
 
 .date-item {
-  display: inline-block;
-  width: 120rpx;
-  text-align: center;
-  padding: 16rpx 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  width: 110rpx;
+  padding: 16rpx 8rpx;
   margin-right: 12rpx;
-  background: #f5f5f5;
-  border-radius: 12rpx;
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  transition: all 0.2s;
 }
+
+.date-item:active { transform: scale(0.95); }
 
 .date-item.active {
-  background: #FFF3ED;
-  border: 2rpx solid #FF6B35;
+  background: var(--primary-bg);
+  border: 2rpx solid var(--primary);
 }
 
-.date-day { font-size: 32rpx; font-weight: bold; display: block; }
-.date-week { font-size: 22rpx; color: #999; margin-top: 4rpx; display: block; }
+.date-day { font-size: 30rpx; font-weight: bold; display: block; }
+.date-week { font-size: 22rpx; color: var(--text-placeholder); margin-top: 4rpx; }
 
-.time-slots {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16rpx;
-}
+.time-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16rpx; }
 
 .time-item {
-  padding: 12rpx 24rpx;
-  background: #f5f5f5;
-  border-radius: 8rpx;
+  text-align: center;
+  padding: 16rpx 0;
+  background: var(--bg);
+  border-radius: var(--radius-sm);
   font-size: 26rpx;
+  color: var(--text-secondary);
+  transition: all 0.2s;
 }
 
+.time-item:active { transform: scale(0.95); }
+
 .time-item.active {
-  background: #FF6B35;
-  color: white;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 500;
+}
+
+/* ── 地址行 ── */
+.address-row { display: flex; gap: 16rpx; align-items: center; }
+.geo-btn {
+  flex-shrink: 0;
+  padding: 0 24rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  font-size: 24rpx;
+  color: var(--primary);
 }
 
 .input-area {
   width: 100%;
-  height: 120rpx;
-  border: 2rpx solid #eee;
-  border-radius: 12rpx;
-  padding: 16rpx;
+  min-height: 140rpx;
+  background: var(--bg);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 20rpx 24rpx;
   font-size: 28rpx;
+  color: var(--text-primary);
   box-sizing: border-box;
 }
 
-.cost-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 12rpx 0;
-  font-size: 28rpx;
-  color: #666;
-}
+.input-area::placeholder { color: var(--text-placeholder); }
 
-.cost-price { color: #333; }
-.cost-free { color: #52c41a; }
+/* ── 费用明细 ── */
+.cost-list { padding: 8rpx 0; }
 
-.total {
-  border-top: 2rpx dashed #eee;
-  margin-top: 10rpx;
-  padding-top: 20rpx;
-  font-weight: bold;
-  font-size: 30rpx;
-}
+.cost-row { display: flex; justify-content: space-between; padding: 8rpx 0; }
 
-.total-price { color: #FF6B35; font-size: 36rpx; }
+.cost-label { font-size: 28rpx; color: var(--text-secondary); }
+.cost-val { font-size: 28rpx; color: var(--text-primary); }
+.cost-free { color: var(--success); }
 
+.total { padding-top: 16rpx !important; }
+.cost-total { font-size: 38rpx; color: var(--primary); font-weight: bold; }
+
+/* ── 底部栏 ── */
 .bottom-bar {
   position: fixed;
   bottom: 0;
@@ -115,19 +136,19 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #fff;
-  padding: 20rpx 30rpx;
-  box-shadow: 0 -4rpx 12rpx rgba(0,0,0,0.05);
+  background: var(--card-bg);
+  padding: 20rpx 32rpx;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  box-shadow: 0 -4rpx 20rpx rgba(0,0,0,0.06);
+  z-index: 100;
 }
 
-.big-price { font-size: 40rpx; color: #FF6B35; font-weight: bold; margin-left: 10rpx; }
+.total-info { display: flex; align-items: baseline; }
+.total-price { font-size: 40rpx; color: var(--primary); font-weight: bold; }
 
 .submit-btn {
-  background: #FF6B35 !important;
-  color: #fff !important;
-  border-radius: 44rpx !important;
+  width: 280rpx;
   font-size: 30rpx !important;
-  padding: 0 40rpx !important;
   height: 80rpx !important;
   line-height: 80rpx !important;
 }
