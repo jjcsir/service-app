@@ -58,7 +58,7 @@
   <!-- 空状态 -->
   <view class="empty-state" wx:else>
     <text class="empty-icon">📋</text>
-    <text class="empty-text">暂无{{tabs[activeTab]?.label || ''}}订单</text>
+    <text class="empty-text">暂无{{tabs[activeTab] \&\& tabs[activeTab].label || ''}}订单</text>
   </view>
 
   <view style="height: 100rpx;"></view>

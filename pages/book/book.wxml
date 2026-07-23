@@ -5,7 +5,7 @@
   <view class="service-card">
     <view class="svc-top">
       <view class="svc-icon-box">
-        <text class="svc-emoji">{{service.emoji || service.emoji_map?.[service.category_name] || '🔧'}}</text>
+        <text class="svc-emoji">{{service.emoji || (service.emoji_map && service.emoji_map[service.category_name]) || 'U1F527'}}</text>
       </view>
       <view class="svc-info">
         <text class="svc-name">{{service.name}}</text>

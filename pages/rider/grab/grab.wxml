@@ -31,12 +31,12 @@
         </view>
         <view class="gc-row">
           <text class="gc-label">时间</text>
-          <text class="gc-value">{{item.created_at?.split('T')?.[0] || '今天'}}</text>
+          <text class="gc-value">{{(item.created_at && item.created_at.split('T')) ? item.created_at.split('T')[0] : '今天'}}</text>
         </view>
       </view>
 
       <view class="gc-footer flex-between">
-        <text class="gc-time">{{item.created_at?.split(' ')?.[1]?.slice(0,5) || '刚刚'}}</text>
+        <text class="gc-time">{{(item.created_at && item.created_at.split(' ')[1]) ? item.created_at.split(' ')[1].slice(0,5) : '刚刚'}}</text>
         <button class="grab-btn btn-primary" size="mini" 
                 disabled="{{item.grabbed}}" bindtap="onGrab" data-id="{{item.order_no}}">
           {{item.grabbed ? '已抢' : '立即抢单'}}

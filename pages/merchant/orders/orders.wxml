@@ -50,7 +50,7 @@
       <view class="oc-top flex-between">
         <view class="oc-order-info">
           <text class="oc-no">{{item.order_no}}</text>
-          <text class="oc-time">{{item.created_at?.split(' ')[0] || ''}}</text>
+          <text class="oc-time">{{item.created_at.split(' ')[0] || ''}}</text>
         </view>
         <view class="oc-status {{statusClass(item.status)}}">{{statusText(item.status)}}</view>
       </view>
